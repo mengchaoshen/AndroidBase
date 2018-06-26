@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smc.androidbase.MainActivity">
+
+    <TextView
+        android:id="@+id/tv_send_to_child"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="发送消息给子线程1"/>
+
+    <TextView
+        android:id="@+id/tv_send_to_child2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="发送消息给子线程2"/>
+
+
+</LinearLayout>

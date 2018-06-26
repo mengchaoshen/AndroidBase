@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smc.androidbase.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_service"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到Service"/>
+
+            <TextView
+                android:id="@+id/tv_contentProvider"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到contentProvider"/>
+
+            <TextView
+                android:id="@+id/tv_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到fragmentActivity"/>
+
+            <TextView
+                android:id="@+id/tv_handler"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到handlerActivity"/>
+
+            <TextView
+                android:id="@+id/tv_arcrtc"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到Launch"/>
+
+            <TextView
+                android:id="@+id/tv_event"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到Event"/>
+
+            <TextView
+                android:id="@+id/tv_handler_thread"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到Handler Thread"/>
+
+            <TextView
+                android:id="@+id/tv_lru_cache"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="跳转到Lru Cache"/>
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="获取Location"/>
+
+            <TextView
+                android:id="@+id/tv_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="自定义View"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

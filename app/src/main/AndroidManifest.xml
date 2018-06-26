@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.smc.androidbase"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <permission android:name="scut.carson_ho.PROVIDER"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SDCARD"/>
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".NotificationShowActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"
+            />
+
+        <activity android:name=".service.ServiceActivity"/>
+
+        <activity android:name=".FragmentActivity"/>
+
+        <activity android:name=".ContentProviderActivity"/>
+
+        <activity android:name=".message.HandlerActivity"/>
+
+        <activity android:name=".launch.LaunchActivity"/>
+
+        <activity android:name=".event_dispatch.EventActivity"/>
+
+        <activity android:name=".handler_thread.HandlerThreadActivity"/>
+
+        <activity android:name=".LruCacheActivity"/>
+
+        <activity android:name=".ViewActivity"/>
+
+        <service android:name=".service.BackService"/>
+
+        <service android:name=".service.BackService2"/>
+
+        <service android:name=".service.ForeService"/>
+
+        <service android:name=".service.MyIntentService">
+            <intent-filter>
+                <action android:name="com.base.intentService"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".service.CheckExitService"/>
+
+        <service android:name=".service.LocationService"/>
+
+        <receiver android:name=".broadcast.MyStaticBroadcastReceiver">
+            <intent-filter>
+                <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 跨进程通信需要  android:exported="true" 以及设置自定义权限-->
+        <provider
+            android:name=".content_provider.PeopleContentProvider"
+            android:authorities="com.example.peopleprovider"
+            android:exported="true"
+
+            android:readPermission="scut.carson_ho.PROVIDER.read"
+            >
+
+        </provider>
+
+    </application>
+
+</manifest>
