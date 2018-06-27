@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LruCache;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,6 +21,32 @@ import java.util.Map;
  */
 
 public class LruCacheActivity extends Activity {
+
+    public static void main(String[] args){
+
+        //accessOrder的含义是，accessOrder=true，表示按照访问顺序遍历，get put都会改变访问顺序，get put操作之后，会把数据放到最后面
+        //accessOrder=false，表示按照存储顺序，遍历顺序是按照插入顺序从先到后输出，也就是先插入的先输出，get put不会影响变量顺序
+        Map<String, String> map = new LinkedHashMap<>(16,0.75f,true);
+        map.put("apple", "苹果");
+        map.put("watermelon", "西瓜");
+        map.put("banana", "香蕉");
+        map.put("peach", "桃子");
+        map.put("apple", "苹果");
+
+//        map.get("banana");
+//        map.get("apple");
+
+
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            System.out.println(entry.getKey() + "=" + entry.getValue());
+        }
+//        Iterator iter = map.entrySet().iterator();
+//        while (iter.hasNext()) {
+//            Map.Entry entry = (Map.Entry) iter.next();
+//            System.out.println(entry.getKey() + "=" + entry.getValue());
+//        }
+
+    }
 
     private final static String TAG = "LruCacheActivity";
     private LruCache<String, Bitmap> mLruCache;
