@@ -54,6 +54,8 @@
 
         <activity android:name=".ViewActivity"/>
 
+        <activity android:name=".ipc.MessageActivity"/>
+
         <service android:name=".service.BackService"/>
 
         <service android:name=".service.BackService2"/>
@@ -69,6 +71,8 @@
         <service android:name=".service.CheckExitService"/>
 
         <service android:name=".service.LocationService"/>
+
+        <service android:name=".ipc.MessageService"/>
 
         <receiver android:name=".broadcast.MyStaticBroadcastReceiver">
             <intent-filter>

@@ -5,6 +5,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
 import com.smc.androidbase.handler_thread.HandlerThreadActivity;
+import com.smc.androidbase.ipc.MessageActivity;
 import com.smc.androidbase.launch.LaunchActivity;
 import com.smc.androidbase.message.HandlerActivity;
 import com.smc.androidbase.service.ServiceActivity;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView mTvService, mTvContentProvider, mTvFragment, mTvHandler;
     TextView mTvArcRtc, mTvEvent, mTvHandlerThread, mTvLruCache, mTvLocation;
-    TextView mTvView;
+    TextView mTvView, mTvMessage;
 
     MyDynamicBroadcastReceiver myBroadcastReceiver;
 
@@ -101,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mTvView = findViewById(R.id.tv_view);
         mTvView.setOnClickListener(this);
+
+        mTvMessage = findViewById(R.id.tv_message);
+        mTvMessage.setOnClickListener(this);
     }
 
     @Override
@@ -167,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_view:
                 ViewActivity.launch(this);
+                break;
+            case R.id.tv_message:
+                MessageActivity.launch(this);
                 break;
             default:
                 break;
