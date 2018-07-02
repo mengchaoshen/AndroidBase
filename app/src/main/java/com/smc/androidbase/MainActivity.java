@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
 import com.smc.androidbase.handler_thread.HandlerThreadActivity;
+import com.smc.androidbase.ipc.AidlActivity;
 import com.smc.androidbase.ipc.MessageActivity;
 import com.smc.androidbase.launch.LaunchActivity;
 import com.smc.androidbase.message.HandlerActivity;
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mTvMessage = findViewById(R.id.tv_message);
         mTvMessage.setOnClickListener(this);
+
+        findViewById(R.id.tv_aidl).setOnClickListener(this);
     }
 
     @Override
@@ -175,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_message:
                 MessageActivity.launch(this);
+                break;
+            case R.id.tv_aidl:
+                AidlActivity.launch(this);
                 break;
             default:
                 break;
