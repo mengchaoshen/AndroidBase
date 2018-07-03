@@ -58,6 +58,8 @@
 
         <activity android:name=".ipc.AidlActivity"/>
 
+        <activity android:name=".ipc.SocketActivity"/>
+
         <service android:name=".service.BackService"/>
 
         <service android:name=".service.BackService2"/>
@@ -77,6 +79,8 @@
         <service android:name=".ipc.MessageService"/>
 
         <service android:name=".ipc.AidlService"/>
+
+        <service android:name=".ipc.SocketService"/>
 
         <receiver android:name=".broadcast.MyStaticBroadcastReceiver">
             <intent-filter>

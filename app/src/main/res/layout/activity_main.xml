@@ -123,6 +123,15 @@
                 android:gravity="center"
                 android:text="AIDL"/>
 
+            <TextView
+                android:id="@+id/tv_socket"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="Socket"/>
+
         </LinearLayout>
 
     </ScrollView>

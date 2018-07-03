@@ -5,7 +5,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,99 +15,54 @@ import com.smc.androidbase.event_dispatch.EventActivity;
 import com.smc.androidbase.handler_thread.HandlerThreadActivity;
 import com.smc.androidbase.ipc.AidlActivity;
 import com.smc.androidbase.ipc.MessageActivity;
+import com.smc.androidbase.ipc.SocketActivity;
 import com.smc.androidbase.launch.LaunchActivity;
 import com.smc.androidbase.message.HandlerActivity;
 import com.smc.androidbase.service.ServiceActivity;
 import com.smc.androidbase.utils.LocationUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "MainActivity";
 
-    TextView mTvService, mTvContentProvider, mTvFragment, mTvHandler;
-    TextView mTvArcRtc, mTvEvent, mTvHandlerThread, mTvLruCache, mTvLocation;
-    TextView mTvView, mTvMessage;
-
     MyDynamicBroadcastReceiver myBroadcastReceiver;
+    @BindView(R.id.tv_service)
+    TextView mTvService;
+    @BindView(R.id.tv_contentProvider)
+    TextView mTvContentProvider;
+    @BindView(R.id.tv_fragment)
+    TextView mTvFragment;
+    @BindView(R.id.tv_handler)
+    TextView mTvHandler;
+    @BindView(R.id.tv_arcrtc)
+    TextView mTvArcrtc;
+    @BindView(R.id.tv_event)
+    TextView mTvEvent;
+    @BindView(R.id.tv_handler_thread)
+    TextView mTvHandlerThread;
+    @BindView(R.id.tv_lru_cache)
+    TextView mTvLruCache;
+    @BindView(R.id.tv_location)
+    TextView mTvLocation;
+    @BindView(R.id.tv_view)
+    TextView mTvView;
+    @BindView(R.id.tv_message)
+    TextView mTvMessage;
+    @BindView(R.id.tv_aidl)
+    TextView mTvAidl;
+    @BindView(R.id.tv_socket)
+    TextView mTvSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate()");
         setContentView(R.layout.activity_main);
-
-//        mTvStartService = findViewById(R.id.tv_startService);
-//        mTvStartService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, BackService.class);
-//                startService(intent);
-//            }
-//        });
-//        mTvBindService = findViewById(R.id.tv_bindService);
-//        mTvBindService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, BackService2.class);
-//                bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
-//            }
-//        });
-//
-//        mTvForeService = findViewById(R.id.tv_foreService);
-//        mTvForeService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, ForeService.class);
-//                startService(intent);
-//            }
-//        });
-
-        mTvService = findViewById(R.id.tv_service);
-        mTvService.setOnClickListener(this);
-
-        mTvContentProvider = findViewById(R.id.tv_contentProvider);
-        mTvContentProvider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContentProviderActivity.launch(MainActivity.this);
-            }
-        });
-
-        mTvFragment = findViewById(R.id.tv_fragment);
-        mTvFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentActivity.launch(MainActivity.this);
-            }
-        });
-
-        mTvHandler = findViewById(R.id.tv_handler);
-        mTvHandler.setOnClickListener(this);
-
-        mTvArcRtc = findViewById(R.id.tv_arcrtc);
-        mTvArcRtc.setOnClickListener(this);
-
-        mTvArcRtc.measure(0, 0);
-
-        mTvEvent = findViewById(R.id.tv_event);
-        mTvEvent.setOnClickListener(this);
-
-        mTvHandlerThread = findViewById(R.id.tv_handler_thread);
-        mTvHandlerThread.setOnClickListener(this);
-
-        mTvLruCache = findViewById(R.id.tv_lru_cache);
-        mTvLruCache.setOnClickListener(this);
-
-        mTvLocation = findViewById(R.id.tv_location);
-        mTvLocation.setOnClickListener(this);
-
-        mTvView = findViewById(R.id.tv_view);
-        mTvView.setOnClickListener(this);
-
-        mTvMessage = findViewById(R.id.tv_message);
-        mTvMessage.setOnClickListener(this);
-
-        findViewById(R.id.tv_aidl).setOnClickListener(this);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -144,9 +98,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onSaveInstanceState()");
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler, R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache, R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_contentProvider:
+                ContentProviderActivity.launch(MainActivity.this);
+                break;
+            case R.id.tv_fragment:
+                FragmentActivity.launch(MainActivity.this);
+                break;
+            case R.id.tv_socket:
+                SocketActivity.launch(this);
+                break;
             case R.id.tv_service:
                 ServiceActivity.launch(this);
                 break;
@@ -182,18 +154,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_aidl:
                 AidlActivity.launch(this);
                 break;
-            default:
-                break;
         }
     }
-
-    public static boolean isAppInstalled(Context context, String packageName) {
-        try {
-            context.getPackageManager().getPackageInfo(packageName, 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
 }
