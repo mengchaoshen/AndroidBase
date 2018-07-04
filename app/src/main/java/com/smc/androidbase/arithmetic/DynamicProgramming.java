@@ -13,9 +13,65 @@ import java.util.List;
 public class DynamicProgramming {
 
     public static void main(String[] args) {
-        Cell maxPrice = DynamicProgramming.dynamic(5);
-        System.out.println("products = " + buildResult(maxPrice));
-        System.out.println("max price = " + maxPrice.getPrice());
+//        Cell maxPrice = DynamicProgramming.selectMaxPrice(5);
+//        System.out.println("products = " + buildResult(maxPrice));
+//        System.out.println("max price = " + maxPrice.getPrice());
+
+        int maxStringSize = findMaxChildString("fosh", "fish");
+        System.out.println("maxString length = " + maxStringSize);
+
+        int maxSequenceLength = findMaxChildSequence("fosh", "fish");
+        System.out.println("maxSequence length = " + maxSequenceLength);
+    }
+
+    /**
+     * 寻找最长公共子串（子串，必须是连续的）
+     *
+     * @param mode
+     * @param str1
+     * @return
+     */
+    public static int findMaxChildString(String mode, String str1) {
+        char[] modeArray = mode.toCharArray();
+        char[] str1Array = str1.toCharArray();
+        int[][] cell = new int[mode.length()][str1.length()];
+        int max = 0;
+        for (int i = 0; i < modeArray.length; i++) {
+            for (int j = 0; j < str1Array.length; j++) {
+                if (modeArray[i] == str1Array[j]) {
+                    cell[i][j] = (i - 1 >= 0 && j - 1 >= 0) ? cell[i - 1][j - 1] + 1 : 1;
+                    max = cell[i][j] > max ? cell[i][j] : max;
+                } else {
+                    cell[i][j] = 0;
+                }
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 寻找最长公共子序列（子序列，不一定是连续的）
+     *
+     * @param mode
+     * @param str1
+     * @return
+     */
+    public static int findMaxChildSequence(String mode, String str1) {
+        char[] modeArray = mode.toCharArray();
+        char[] str1Array = str1.toCharArray();
+        int[][] cell = new int[mode.length()][str1.length()];
+        int max = 0;
+        for (int i = 0; i < modeArray.length; i++) {
+            for (int j = 0; j < str1Array.length; j++) {
+                if (modeArray[i] == str1Array[j]) {
+                    cell[i][j] = (i - 1 >= 0 && j - 1 >= 0) ? cell[i - 1][j - 1] + 1 : 1;
+                    max = cell[i][j] > max ? cell[i][j] : max;
+                } else {
+                    cell[i][j] = Math.max(j - 1 >= 0 ? cell[i][j - 1] : 0, i - 1 >= 0 ? cell[i - 1][j] : 0);
+                }
+            }
+        }
+        return max;
     }
 
     /**
@@ -28,10 +84,11 @@ public class DynamicProgramming {
      * 这样规划的思路就是，每一行获得的最大价值是，当前行物品价格+剩余磅数能产生的最大价值（这个参考上一行的价值）
      * 与 上一行相同磅数作比较，价值更大者就是当前行磅数的最大价值，依次类推，知道所有物品行数，磅数，都遍历完毕为止。
      * 最后一行，最后磅数，的结果，就是袋子所能装最大价值以及装入物品的组合
+     *
      * @param maxWeight
      * @return
      */
-    public static Cell dynamic(int maxWeight) {
+    public static Cell selectMaxPrice(int maxWeight) {
         List<Product> productList = buildProductSet();
         Cell[][] cells = new Cell[productList.size()][maxWeight];
         for (int i = 0; i < productList.size(); i++) {
