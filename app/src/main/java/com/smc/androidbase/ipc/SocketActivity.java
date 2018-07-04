@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -64,8 +63,6 @@ public class SocketActivity extends Activity {
         }
     };
 
-    private Handler mSocketHandler;
-
     public static void launch(Context context) {
         context.startActivity(new Intent(context, SocketActivity.class));
     }
@@ -82,17 +79,7 @@ public class SocketActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Looper.prepare();
-                mSocketHandler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        mPrintWriter.println("123");
-                        Log.d(TAG, "发送消息成功：" + "123");
-                    }
-                };
                 connectSocket();
-                Looper.loop();
             }
         }).start();
     }
@@ -107,7 +94,6 @@ public class SocketActivity extends Activity {
                     Log.d(TAG, "客户端发送消息成功：" + "123");
                 }
             }).start();
-            mSocketHandler.sendEmptyMessage(0);
             mStringBuilder.append("123").append("\n");
             mTvContent.setText(mStringBuilder.toString());
         }
