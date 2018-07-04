@@ -26,6 +26,8 @@ public class DynamicProgramming {
 
     /**
      * 寻找最长公共子串（子串，必须是连续的）
+     * 两个for循环遍历两个字符串，如果两个字符相等，那么当前最大长度为cell[i-1][j-1]，
+     * 如果不相等，那就是0，以此循环，直到最后，最大值，就是最大子串的长度
      *
      * @param mode
      * @param str1
@@ -51,6 +53,8 @@ public class DynamicProgramming {
 
     /**
      * 寻找最长公共子序列（子序列，不一定是连续的）
+     * 原理与寻找最长公共子序列类似，只不过如果遇到不相等的情况，当前值为，cell[i][j-1]和cell[i-1][j]中的最大值，
+     * 也就是要把之前计算的公共序列长度累加起来
      *
      * @param mode
      * @param str1
