@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SDCARD"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApplication"
@@ -59,6 +60,8 @@
         <activity android:name=".ipc.AidlActivity"/>
 
         <activity android:name=".ipc.SocketActivity"/>
+
+        <activity android:name=".bitmap.BitmapActivity"/>
 
         <service android:name=".service.BackService"/>
 

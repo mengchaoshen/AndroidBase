@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.smc.androidbase.bitmap.BitmapActivity;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
 import com.smc.androidbase.handler_thread.HandlerThreadActivity;
@@ -107,7 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler, R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache, R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket})
+    @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler,
+            R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
+            R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket
+            , R.id.tv_bitmap})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_contentProvider:
@@ -153,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_aidl:
                 AidlActivity.launch(this);
+                break;
+            case R.id.tv_bitmap:
+                BitmapActivity.launch(this);
                 break;
         }
     }
