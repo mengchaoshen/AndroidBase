@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_file"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
 
     <ImageView
         android:id="@+id/iv_source"
