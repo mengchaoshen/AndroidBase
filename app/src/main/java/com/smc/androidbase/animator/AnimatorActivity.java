@@ -36,12 +36,12 @@ public class AnimatorActivity extends Activity {
     Button mBtnTrans;
     @BindView(R.id.iv_scale)
     ImageView mIvScale;
-    @BindView(R.id.iv_alpha)
-    ImageView mIvAlpha;
-    @BindView(R.id.iv_rotate)
-    ImageView mIvRotate;
-    @BindView(R.id.iv_trans)
-    ImageView mIvTrans;
+//    @BindView(R.id.iv_alpha)
+//    ImageView mIvAlpha;
+//    @BindView(R.id.iv_rotate)
+//    ImageView mIvRotate;
+//    @BindView(R.id.iv_trans)
+//    ImageView mIvTrans;
 
 
     public static void launch(Context context) {
@@ -89,6 +89,10 @@ public class AnimatorActivity extends Activity {
                 mIvScale.startAnimation(animationRotate);
                 break;
             case R.id.btn_trans:
+                //fromXDelta fromYDelta toXDelta toYDelta表示起始和终止xy坐标的相对值
+                //duration fillAfter fillBefore fillEnabled repeatCount repeatMode这些参数和Scale一样
+                Animation animationTranslate = AnimationUtils.loadAnimation(this, R.anim.translate);
+                mIvScale.startAnimation(animationTranslate);
                 break;
         }
     }
