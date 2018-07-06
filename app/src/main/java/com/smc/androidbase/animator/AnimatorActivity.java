@@ -59,7 +59,7 @@ public class AnimatorActivity extends Activity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_scale:
-                //Scale缩放可以配置的参数有，
+                //Scale 缩放可以配置的参数有，
                 //fromXScale fromYScale toXScale toYScale 缩放的起始终止XY坐标百分比，
                 //fromXScale=0.5，即表示起始是x坐标的一半
                 //pivotX pivotY表示缩放的远中心点，
@@ -77,10 +77,16 @@ public class AnimatorActivity extends Activity {
                 mIvScale.startAnimation(animationScale);
                 break;
             case R.id.btn_alpha:
+                //fromAlpha toAlpha表示起始和终止的透明度
+                //duration fillAfter fillBefore fillEnabled repeatCount repeatMode这些参数和Scale一样
                 Animation animationAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
                 mIvScale.startAnimation(animationAlpha);
                 break;
             case R.id.btn_rotate:
+                //fromDegrees toDegrees 表示起始和终止的角度
+                //pivotX pivotY duration fillAfter fillBefore fillEnabled repeatCount repeatMode这些参数和Scale一样
+                Animation animationRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+                mIvScale.startAnimation(animationRotate);
                 break;
             case R.id.btn_trans:
                 break;
