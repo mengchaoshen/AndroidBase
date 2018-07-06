@@ -34,8 +34,15 @@ public class AnimatorActivity extends Activity {
     Button mBtnRotate;
     @BindView(R.id.btn_trans)
     Button mBtnTrans;
-    @BindView(R.id.iv_image)
-    ImageView mIvImage;
+    @BindView(R.id.iv_scale)
+    ImageView mIvScale;
+    @BindView(R.id.iv_alpha)
+    ImageView mIvAlpha;
+    @BindView(R.id.iv_rotate)
+    ImageView mIvRotate;
+    @BindView(R.id.iv_trans)
+    ImageView mIvTrans;
+
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, AnimatorActivity.class));
@@ -60,10 +67,18 @@ public class AnimatorActivity extends Activity {
                 //pivotX=50%p表示中心点的x坐标是目标view的父控件width的50%，p表示parent的意思
                 //duration 表示这个动画执行的时间，但是是毫秒
                 //duration=300 表示动画执行的时间是300ms
-                Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale);
-                mIvImage.startAnimation(animation);
+                //fillAfter=true表示动画结束以后，View会保持动画结束时的大小，默认是为false
+                //fillBefore=true fillEnabled=true含义一样，都是在动画结束后，回复到起始状态，默认值为true
+                //这里，如果fillAfter=true和fillBefore=true那么View会在动画结束会保持结束时的状态
+                //repeatCount=1表示动画的循环次数，repeatCount=1时，动画的播放次数就是1+1=2次
+                //repeatMode 表示动画重复模式 这个模式仅当repeatCount>0是起效果
+                //repeatMode="reverse"表示倒叙播放 repeatMode="restart"表示重新播放
+                Animation animationScale = AnimationUtils.loadAnimation(this, R.anim.scale);
+                mIvScale.startAnimation(animationScale);
                 break;
             case R.id.btn_alpha:
+                Animation animationAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
+                mIvScale.startAnimation(animationAlpha);
                 break;
             case R.id.btn_rotate:
                 break;
