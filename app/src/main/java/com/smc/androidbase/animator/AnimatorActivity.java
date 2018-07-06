@@ -55,7 +55,7 @@ public class AnimatorActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btn_scale, R.id.btn_alpha, R.id.btn_rotate, R.id.btn_trans})
+    @OnClick({R.id.btn_scale, R.id.btn_alpha, R.id.btn_rotate, R.id.btn_trans, R.id.btn_set})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_scale:
@@ -93,6 +93,10 @@ public class AnimatorActivity extends Activity {
                 //duration fillAfter fillBefore fillEnabled repeatCount repeatMode这些参数和Scale一样
                 Animation animationTranslate = AnimationUtils.loadAnimation(this, R.anim.translate);
                 mIvScale.startAnimation(animationTranslate);
+                break;
+            case R.id.btn_set:
+                Animation animationSet = AnimationUtils.loadAnimation(this, R.anim.anim_set);
+                mIvScale.startAnimation(animationSet);
                 break;
         }
     }

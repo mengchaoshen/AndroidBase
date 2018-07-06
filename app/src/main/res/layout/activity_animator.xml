@@ -17,25 +17,44 @@
             android:id="@+id/btn_scale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scale"/>
+            android:text="Scale"
+            android:textSize="12dp"/>
 
         <Button
             android:id="@+id/btn_alpha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alpha"/>
+            android:text="Alpha"
+            android:textSize="12dp"/>
 
         <Button
             android:id="@+id/btn_rotate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rotate"/>
+            android:text="Rotate"
+            android:textSize="12dp"/>
 
         <Button
             android:id="@+id/btn_trans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trans"/>
+            android:text="Trans"
+            android:textSize="12dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SET"
+            android:textSize="12dp"/>
 
     </LinearLayout>
 
