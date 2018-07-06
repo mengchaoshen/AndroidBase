@@ -63,6 +63,8 @@
 
         <activity android:name=".bitmap.BitmapActivity"/>
 
+        <activity android:name=".animator.AnimatorActivity"/>
+
         <service android:name=".service.BackService"/>
 
         <service android:name=".service.BackService2"/>
