@@ -1,13 +1,16 @@
 package com.smc.androidbase;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 
 import com.smc.androidbase.view.CoinView;
+import com.smc.androidbase.view.LoadingView;
 import com.smc.androidbase.view.SquareImageView;
 
 import butterknife.BindView;
@@ -28,6 +31,8 @@ public class ViewActivity extends Activity {
     ImageView mIv;
     @BindView(R.id.coin_view)
     CoinView mCoinView;
+    @BindView(R.id.load_view)
+    LoadingView mLoadView;
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, ViewActivity.class));
@@ -39,5 +44,13 @@ public class ViewActivity extends Activity {
         setContentView(R.layout.activity_view);
         ButterKnife.bind(this);
         mCoinView.startAnimation();
+        setObjRotation();
+    }
+
+    private void setObjRotation() {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLoadView, "rotationY", 0, 360);
+        objectAnimator.setDuration(2000);
+        objectAnimator.setInterpolator(new BounceInterpolator());
+        objectAnimator.start();
     }
 }
