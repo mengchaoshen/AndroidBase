@@ -4,7 +4,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import com.smc.androidbase.arc.HttpUtils;
 import com.smc.androidbase.service.CheckExitService;
+
+import retrofit2.http.HTTP;
 
 /**
  * @author shenmengchao
@@ -20,6 +23,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        HttpUtils.getInstance().init();
         Log.d(TAG, "onCreate()");
 //        Intent intent = new Intent(this, CheckExitService.class);
 //        startService(intent);

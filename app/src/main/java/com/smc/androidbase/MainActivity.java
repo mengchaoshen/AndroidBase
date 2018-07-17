@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.smc.androidbase.animator.AnimatorActivity;
+import com.smc.androidbase.arc.LoginActivity;
 import com.smc.androidbase.bitmap.BitmapActivity;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView mTvBitmap;
     @BindView(R.id.tv_animator)
     TextView mTvAnimator;
+    @BindView(R.id.tv_login)
+    TextView mTvLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +119,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler,
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
-            R.id.tv_bitmap, R.id.tv_animator})
+            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_login:
+                LoginActivity.launch(this);
+                break;
             case R.id.tv_contentProvider:
                 ContentProviderActivity.launch(MainActivity.this);
                 break;
@@ -170,5 +176,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AnimatorActivity.launch(this);
                 break;
         }
+    }
+
+//    @OnClick(R.id.tv_login)
+//    public void onClick() {
+//    }
+
+    public static void main(String args[]) {
+        double d90 = Math.toRadians(90);
+        System.out.println(d90);
+        double d = Math.cos(Math.toRadians(90));
+        System.out.println(d);
     }
 }
