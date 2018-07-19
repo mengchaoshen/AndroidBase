@@ -2,9 +2,7 @@ package com.smc.androidbase.arc;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -14,8 +12,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.smc.androidbase.MainActivity;
-import com.smc.androidbase.NotificationShowActivity;
 import com.smc.androidbase.R;
 
 import java.io.IOException;
@@ -50,9 +46,24 @@ public class CheckService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate()");
         initTime();
         startCheckProcess();
         beginForeService();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+//        super.onStartCommand(intent, flags, startId);
+        Log.d(TAG, "onStartCommand()");
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
+        startService(new Intent(this, CheckService.class));
     }
 
     private void beginForeService() {
@@ -76,7 +87,7 @@ public class CheckService extends Service {
     private void initTime() {
         if (null == mNextTime || mNextTime.getHour() == 0 || mNextTime.getMinute() == 0) {
             Time currentTime = DateUtil.getTime(System.currentTimeMillis());
-            if (currentTime.getHour() > 9 && currentTime.getHour() < 18) {
+            if (currentTime.getHour() > 8 && currentTime.getHour() < 18) {
                 mNextTime = new Time(17, 56);
             } else {
                 mNextTime = new Time(8, 23);
