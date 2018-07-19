@@ -13,14 +13,24 @@
         android:layout_height="50dp"
         android:background="#999999"
         android:gravity="center"
-        android:text="开启"/>
+        android:text="手动"/>
+
+    <TextView
+        android:id="@+id/tv_start_service"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="开启服务"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="打卡时间:"/>
+        android:text="打卡时间:"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_time"

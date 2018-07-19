@@ -96,6 +96,8 @@
 
         <service android:name=".ipc.SocketService"/>
 
+        <service android:name=".arc.CheckService"/>
+
         <receiver android:name=".broadcast.MyStaticBroadcastReceiver">
             <intent-filter>
                 <!--<action android:name="android.net.wifi.STATE_CHANGE"/>-->
