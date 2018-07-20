@@ -7,8 +7,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.smc.androidbase.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +95,7 @@ public class SectorLayout extends ViewGroup {
             View child = getChildAt(i);
             int childWidth = child.getMeasuredWidth();
             int childHeight = child.getMeasuredHeight();
-            Log.d(TAG, "childWidth = " + childWidth + ", childHeight = " + childHeight);
+//            Log.d(TAG, "childWidth = " + childWidth + ", childHeight = " + childHeight);
             Rect rectChild;
             if (0 == i) {//第一个绘制在中间
                 rectChild = getRectByOrigin(mRadius + mXOffset, mRadius + mYOffset, childWidth, childHeight);
@@ -100,6 +103,13 @@ public class SectorLayout extends ViewGroup {
                 Point originPoint = mOriginList.get(i - 1);
                 rectChild = getRectByOrigin(originPoint.x + mXOffset, originPoint.y + mYOffset,
                         childWidth, childHeight);
+            }
+            if (child instanceof TextView) {
+
+                Log.d(TAG, "onMeasure left = " + rectChild.left
+                        + ", top = " + rectChild.top
+                        + ", top = " + rectChild.top
+                        + ", text = " + ((TextView) child).getText().toString());
             }
             mChildRectList.add(rectChild);
             mMaxWidth = Math.max(mMaxWidth, rectChild.right);
@@ -130,6 +140,8 @@ public class SectorLayout extends ViewGroup {
             View child = getChildAt(i);
             Rect rect = mChildRectList.get(i);
             child.layout(rect.left, rect.top, rect.right, rect.bottom);
+            Log.d(TAG, "onLayout left = " + rect.left
+                    + ", top = " + rect.top);
         }
     }
 
@@ -143,6 +155,9 @@ public class SectorLayout extends ViewGroup {
         while (radian < RADIAN_360) {
             mRadianList.add(radian);
             radian += RADIAN_GAP;
+
+            Log.d(TAG, "initRadianList radian = " + radian
+                    + ", degree = " + Math.toDegrees(radian));
         }
     }
 
@@ -154,8 +169,8 @@ public class SectorLayout extends ViewGroup {
                 radian += RADIAN_360;
             }
             if (RADIAN_0 <= radian && radian < RADIAN_90) {
-                x = (int) ((1 - Math.sin(radian)) * mRadius);
-                y = (int) ((1 - Math.cos(radian)) * mRadius);
+                x = (int) ((1 - Math.cos(radian)) * mRadius);
+                y = (int) ((1 - Math.sin(radian)) * mRadius);
             } else if (RADIAN_90 <= radian && radian < RADIAN_180) {
                 x = (int) ((1 + Math.sin((radian - RADIAN_90))) * mRadius);
                 y = (int) ((1 - Math.cos((radian - RADIAN_90))) * mRadius);
@@ -168,6 +183,8 @@ public class SectorLayout extends ViewGroup {
             }
             Point point = new Point(x, y);
             mOriginList.add(point);
+            Log.d(TAG, "initOriginList x = " + x
+                    + ", y = " + y);
         }
     }
 
