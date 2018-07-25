@@ -44,6 +44,13 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
         }
     };
 
+    private Handler mHandler2 = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            return false;
+        }
+    });
+
     private Handler mChildHandler, mChildHandler2;
 
     @Override
@@ -55,6 +62,12 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
 
 
+                mHandler2.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
 
                 //这里是子线程，可以在这里进行耗时操作。
                 Message message = Message.obtain();

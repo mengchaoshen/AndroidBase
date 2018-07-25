@@ -5,5 +5,4 @@
            android:fromXDelta="0"
            android:fromYDelta="0"
            android:toXDelta="300"
-           android:toYDelta="300"
     />
