@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @BindView(R.id.tv_im)
     TextView mTvIm;
+    @BindView(R.id.tv_empty)
+    TextView mTvEmpty;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler,
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
-            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im})
+            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_empty:
+                EmptyActivity.launch(this);
+                break;
             case R.id.tv_im:
                 ImActivity.launch(this);
                 break;
