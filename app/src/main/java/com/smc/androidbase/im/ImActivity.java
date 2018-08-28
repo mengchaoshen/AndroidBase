@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -61,7 +62,7 @@ public class ImActivity extends Activity {
         registerMessageReceive();
     }
 
-    @OnClick({R.id.tv_login_8888, R.id.tv_login_6666, R.id.tv_send_to_8888, R.id.tv_send_to_6666
+    @OnClick({R.id.tv_login_8888, R.id.tv_login_6666, R.id.tv_login_9999, R.id.tv_send_to_8888, R.id.tv_send_to_6666
             , R.id.tv_send_to_9999})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -71,14 +72,17 @@ public class ImActivity extends Activity {
             case R.id.tv_login_6666:
                 doLogin("6666");
                 break;
+            case R.id.tv_login_9999:
+                doLogin("9999");
+                break;
             case R.id.tv_send_to_8888:
-                sendMessage("8888", "this is a message from 6666");
+                sendMessage("8888");
                 break;
             case R.id.tv_send_to_6666:
-                sendMessage("6666", "this is a message from 8888");
+                sendMessage("6666");
                 break;
             case R.id.tv_send_to_9999:
-                sendMessage("9999", "this is a message from 8888");
+                sendMessage("9999");
                 break;
         }
     }
@@ -108,12 +112,14 @@ public class ImActivity extends Activity {
                 .setCallback(callback);
     }
 
-    public void sendMessage(String toAccount, String message) {
+    public void sendMessage(String toAccount) {
+        MessageBean messageBean = new MessageBean("8723", "8888", "客户8888");
+        String text = new Gson().toJson(messageBean);
+
         // 该帐号为示例，请先注册
         String account = toAccount;
         // 以单聊类型为例
         SessionTypeEnum sessionType = SessionTypeEnum.P2P;
-        String text = message;
         // 创建一个文本消息
         IMMessage textMessage = MessageBuilder.createTextMessage(account, sessionType, text);
         // 发送给对方
@@ -139,7 +145,6 @@ public class ImActivity extends Activity {
                 }
             }
         }, true);
-
     }
 
     private Observer<IMMessage> statusObserver = new Observer<IMMessage>() {

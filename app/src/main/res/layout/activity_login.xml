@@ -25,6 +25,24 @@
         android:text="开启服务"/>
 
     <TextView
+        android:id="@+id/tv_httpurlconnection"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="HttpUrlConnection"/>
+
+    <TextView
+        android:id="@+id/tv_set_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="设置系统时间"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"

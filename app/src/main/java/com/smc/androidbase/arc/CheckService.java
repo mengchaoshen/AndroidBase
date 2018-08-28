@@ -149,23 +149,23 @@ public class CheckService extends Service {
 //        OkHttpClient client = new OkHttpClient();
         //构造Request对象
         //采用建造者模式，链式调用指明进行Get请求,传入Get的请求地址
-        Request.Builder builder = new Request.Builder();
-        builder.get();
-        builder.url("");
-        Request request = builder.build();
+//        Request.Builder builder = new Request.Builder();
+//        builder.get();
+//        builder.url("");
+//        Request request = builder.build();
 
 
-        Request request1 = new Request.Builder()
+        Request request = new Request.Builder()
                 .get()
                 .url("http://172.28.10.66/login.asp")
                 .build();
 
         Call call = HttpUtils.getInstance().getOkHttpClient().newCall(request);
-        try {
-            Response response = call.execute();//同步执行请求
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Response response = call.execute();//同步执行请求
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
         //异步调用并设置回调函数

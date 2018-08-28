@@ -4,7 +4,7 @@ package com.smc.androidbase.arithmetic;
  * @author shenmengchao
  * @version 1.0.0
  * @date 2018/6/13
- * @description 使用递归，实现递归算法
+ * @description 使用递归，实现阶乘
  */
 public class Factorial {
 

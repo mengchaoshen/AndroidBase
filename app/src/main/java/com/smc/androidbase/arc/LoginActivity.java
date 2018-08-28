@@ -1,6 +1,7 @@
 package com.smc.androidbase.arc;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -15,13 +16,24 @@ import android.widget.Toast;
 import com.smc.androidbase.R;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -57,9 +69,12 @@ public class LoginActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tv_start, R.id.tv_start_service})
+    @OnClick({R.id.tv_start, R.id.tv_start_service, R.id.tv_httpurlconnection, R.id.tv_set_time})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_set_time:
+                setSysTime(16, 11);
+                break;
             case R.id.tv_start:
                 getLoginAsp();
                 break;
@@ -70,9 +85,68 @@ public class LoginActivity extends Activity {
                     startService(new Intent(this, CheckService.class));
                 }
                 break;
+            case R.id.tv_httpurlconnection:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doHttpUrlConnectionRequest();
+                    }
+                }).start();
+                break;
             default:
                 break;
         }
+    }
+
+    public void setSysTime(int hour, int minute) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        long when = c.getTimeInMillis();
+        if (when / 1000 < Integer.MAX_VALUE) {
+            ((AlarmManager) this.getSystemService(Context.ALARM_SERVICE)).setTime(when);
+        }
+    }
+
+    private void doHttpUrlConnectionRequest() {
+        String message = "";
+        try {
+            URL url = new URL("http://vevi.pw:90/api/clientVersion/chkVersion");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(false);
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setRequestProperty("Content-type", "application/json;charset=utf-8");
+            httpURLConnection.connect();
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            String param = "{\"mobileType\":\"0\",\"versionNumber\":\"1.0.0\",\"packageName\":\"com.mingrenjinfu\"}";
+            outputStream.write(param.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            InputStream inputStream = httpURLConnection.getInputStream();
+//            byte[] data = new byte[1000];//1000->1次
+            byte[] data = new byte[32];//16->5次
+            StringBuffer stringBuffer = new StringBuffer();
+            int length = 0;
+            while ((length = inputStream.read(data)) != -1) {
+                Log.d(TAG, "connect 1");
+                String s = new String(data, Charset.forName("utf-8"));
+                stringBuffer.append(s);
+                data = new byte[32];
+            }
+            message = stringBuffer.toString().trim();
+            inputStream.close();
+            httpURLConnection.disconnect();
+
+            Log.d(TAG, "doOutPut = " + httpURLConnection.getDoOutput());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "message = " + message);
     }
 
     private void getLoginAsp() {
@@ -81,7 +155,21 @@ public class LoginActivity extends Activity {
         //构造Request对象
         //采用建造者模式，链式调用指明进行Get请求,传入Get的请求地址
         Request request = new Request.Builder().get().url("http://172.28.10.66/login.asp").build();
-        Call call = HttpUtils.getInstance().getOkHttpClient().newCall(request);
+        Call call = HttpUtils.getInstance().getOkHttpClient()
+                .newBuilder()
+                .cookieJar(new CookieJar() {
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+
+                    }
+
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        return null;
+                    }
+                })
+                .build()
+                .newCall(request);
         //异步调用并设置回调函数
         call.enqueue(new Callback() {
             @Override

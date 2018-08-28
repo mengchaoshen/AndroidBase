@@ -24,6 +24,15 @@
         android:gravity="center"
         android:text="登录6666"/>
 
+    <TextView
+        android:id="@+id/tv_login_9999"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="登录9999"/>
+
 
     <TextView
         android:id="@+id/tv_send_to_8888"

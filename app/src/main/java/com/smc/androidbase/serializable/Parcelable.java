@@ -13,7 +13,7 @@ public class Parcelable implements android.os.Parcelable {
 
     //实现Parcelable接口
     //1.需要自己重写write和read的方法，以及自己定义一个CREATOR，比较复杂，但是这样自由度更高
-    //2.Parcelable是内存中的读写，所以效率会比较高
+    //2.Parcelable是内存中的读写，所以效率会比较高，但是无法做到持久化，只能在程序运行期间序列化，也就是无法存储为文件
 
     private String name;
     private int age;
