@@ -85,6 +85,8 @@
 
         <activity android:name=".im.ImActivity"/>
 
+        <activity android:name=".EmptyActivity"/>
+
         <service android:name=".service.BackService"/>
 
         <service android:name=".service.BackService2"/>
