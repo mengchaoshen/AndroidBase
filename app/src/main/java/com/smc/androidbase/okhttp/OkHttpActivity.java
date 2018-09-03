@@ -10,7 +10,7 @@ import java.io.IOException;
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.EventListener;
+//import okhttp3.EventListener;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -73,12 +73,12 @@ public class OkHttpActivity extends Activity {
 
         OkHttpClient client = new OkHttpClient
                 .Builder()
-                .eventListener(new EventListener() {
-                    @Override
-                    public void callStart(Call call) {
-                        super.callStart(call);
-                    }
-                })
+//                .eventListener(new EventListener() {
+//                    @Override
+//                    public void callStart(Call call) {
+//                        super.callStart(call);
+//                    }
+//                })
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {

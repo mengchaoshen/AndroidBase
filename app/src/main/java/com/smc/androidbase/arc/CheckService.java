@@ -50,6 +50,7 @@ public class CheckService extends Service {
         initTime();
         startCheckProcess();
         beginForeService();
+        Toast.makeText(this, "开启服务成功", Toast.LENGTH_LONG).show();
     }
 
     @Override

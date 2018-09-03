@@ -73,7 +73,9 @@ public class HttpUtils {
                         } else {
                             listNew = cookies;
                         }
-                        cookieStore.put(url.host(), listNew);
+                        if(null != listNew && listNew.size() > 0){
+                            cookieStore.put(url.host(), listNew);
+                        }
                     }
 
                     @Override
