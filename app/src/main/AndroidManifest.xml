@@ -28,6 +28,7 @@
     <!-- 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <uses-permission android:name="com.smc.androidbase.permission.RECEIVE_MSG"/>
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".MyApplication"
@@ -177,6 +178,12 @@
             android:authorities="com.smc.androidbase.ipc.provider"
             android:exported="false"
             android:process=":core"/>
+
+        <receiver android:name=".arc.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
 
     </application>
