@@ -30,6 +30,11 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+    <!-- 设置openGLES的版本号 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -87,6 +92,12 @@
         <activity android:name=".im.ImActivity"/>
 
         <activity android:name=".EmptyActivity"/>
+
+        <activity android:name=".gl.GLActivity"/>
+
+        <activity android:name=".gl.OneOpenGLActivity"/>
+
+        <activity android:name=".gl.TriangleActivity"/>
 
         <service android:name=".service.BackService"/>
 

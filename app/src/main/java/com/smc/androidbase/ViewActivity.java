@@ -16,6 +16,9 @@ import com.smc.androidbase.view.LoadingView;
 import com.smc.androidbase.view.MyView;
 import com.smc.androidbase.view.SquareImageView;
 
+import javax.microedition.khronos.egl.EGLContext;
+import javax.microedition.khronos.opengles.GL10;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -56,6 +59,8 @@ public class ViewActivity extends Activity {
                 return false;
             }
         });
+
+        GL10 gl10 = (GL10) EGLContext.getEGL();
     }
 
     private void setObjRotation() {

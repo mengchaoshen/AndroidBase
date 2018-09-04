@@ -15,6 +15,8 @@ import com.smc.androidbase.arc.LoginActivity;
 import com.smc.androidbase.bitmap.BitmapActivity;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
+import com.smc.androidbase.gl.GLActivity;
+import com.smc.androidbase.gl.OneOpenGLActivity;
 import com.smc.androidbase.handler_thread.HandlerThreadActivity;
 import com.smc.androidbase.im.ImActivity;
 import com.smc.androidbase.ipc.AidlActivity;
@@ -126,9 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler,
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
-            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty})
+            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_gl:
+                GLActivity.launch(this);
+                break;
             case R.id.tv_empty:
                 EmptyActivity.launch(this);
                 break;
