@@ -19,6 +19,7 @@ import butterknife.OnClick;
  * @version 1.0.0
  * @date 2018/9/4
  * @description
+ * 介绍OpenGL的文章：https://www.jianshu.com/p/92d02ac80611
  */
 
 public class GLActivity extends Activity {

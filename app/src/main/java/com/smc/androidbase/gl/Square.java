@@ -13,64 +13,48 @@ import java.nio.FloatBuffer;
  * @description
  */
 
-public class Triangle {
+public class Square {
 
     private FloatBuffer vertexBuffer;
 
     static final int COORDS_PER_VERTEX = 3;
-    static float triangleCoords[] = {
-            0.0f, 0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-
-            -1f, 1f, 0.0f,
-            -1f, -0f, 0.0f,
-            0f, 1f, 0.0f,
+    static float Coords[] = {
+            0f, 0.9f, 0.0f,
+            0f, 0f, 0.0f,
+            0.9f, 0f, 0.0f,
+            0.9f, 0.9f, 0.0f,
+            0f, 0.9f, 0.0f,
     };
     float color[] = {
-            255, 0, 0, 1.0f};
+            0, 255, 0, 1.0f};
     //顶点
-//    private final String vertexShaderCode =
-//            "attribute vec4 vPosition;" +
-//                    "void main() {" +
-//                    " gl_Position = vPosition;" +
-//                    "}";
+    private final String vertexShaderCode =
+            "attribute vec4 vPosition;" +
+                    "void main() {" +
+                    " gl_Position = vPosition;" +
+                    "}";
     //片段
-
-
-
-
     private final String fragmentShaderCode =
             "precision mediump float;" +
                     "uniform vec4 vColor;" +
                     "void main() {" +
                     " gl_FragColor = vColor;" +
                     "}";
-
-
-    private final String vertexShaderCode =
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
-                    "void main() {" +
-                    "  gl_Position = uMVPMatrix * vPosition;" + "}";
-
-
     private final int vertexStride = COORDS_PER_VERTEX * 4;
-    private final int vertexCount = triangleCoords.length / COORDS_PER_VERTEX;
+    private final int vertexCount = Coords.length / COORDS_PER_VERTEX;
 
 
     private int mProgram;
     private int mPositionHandle;
     private int mColorHandle;
-    private int mMvpMatrixHandle;
 
 
-    public Triangle() {
+    public Square() {
         //数据转换
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(triangleCoords.length * 4);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(Coords.length * 4);
         byteBuffer.order(ByteOrder.nativeOrder());
         vertexBuffer = byteBuffer.asFloatBuffer();
-        vertexBuffer.put(triangleCoords);
+        vertexBuffer.put(Coords);
         vertexBuffer.position(0);
 
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
@@ -81,7 +65,7 @@ public class Triangle {
         GLES20.glLinkProgram(mProgram);
     }
 
-    public void draw(float[] mvpMatrix) {
+    public void draw() {
         GLES20.glUseProgram(mProgram);
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -89,11 +73,7 @@ public class Triangle {
                 false, vertexStride, vertexBuffer);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-
-        mMvpMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mvpMatrix, 0);
-
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vertexCount);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 
@@ -103,5 +83,4 @@ public class Triangle {
         GLES20.glCompileShader(shader);
         return shader;
     }
-
 }
