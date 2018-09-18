@@ -88,6 +88,8 @@ public class CheckService extends Service {
     private void initTime() {
         if (null == mNextTime || mNextTime.getHour() == 0 || mNextTime.getMinute() == 0) {
             Time currentTime = DateUtil.getTime(System.currentTimeMillis());
+            Log.d(TAG, "currentTime = " + currentTime.toString());
+            Toast.makeText(this, "currentTime = " + currentTime.toString(), Toast.LENGTH_LONG);
             if (currentTime.getHour() > 8 && currentTime.getHour() < 18) {
                 mNextTime = new Time(17, 56);
             } else {
