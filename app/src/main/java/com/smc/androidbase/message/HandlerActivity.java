@@ -26,11 +26,13 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
 
     public final static String TAG = "HandlerActivity";
 
+    private Message mObtainMessage;
+
     public static void launch(Context context) {
         context.startActivity(new Intent(context, HandlerActivity.class));
     }
 
-    private TextView mTvSendToChild, mTvSendToChild2;
+    private TextView mTvSendToChild, mTvSendToChild2, mTvObtainSend;
 
     /**
      * 主线程的Handler在创建起来之前就有Looper，已经开启了Looper.loop()循环，一旦MessageQueue里面有数据，就是会取出Message
@@ -57,6 +59,9 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handler);
+
+        mObtainMessage = mHandler.obtainMessage();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -111,6 +116,8 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
         mTvSendToChild.setOnClickListener(this);
         mTvSendToChild2 = findViewById(R.id.tv_send_to_child2);
         mTvSendToChild2.setOnClickListener(this);
+        mTvObtainSend = findViewById(R.id.tv_obtain_send);
+        mTvObtainSend.setOnClickListener(this);
     }
 
     @Override
@@ -121,6 +128,10 @@ public class HandlerActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.tv_send_to_child2:
                 mChildHandler2.sendEmptyMessage(0);
+//                mChildHandler2.post()
+                break;
+            case R.id.tv_obtain_send:
+                Message.obtain(mObtainMessage).sendToTarget();
                 break;
             default:
                 break;

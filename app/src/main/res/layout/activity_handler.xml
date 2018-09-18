@@ -24,5 +24,14 @@
         android:gravity="center"
         android:text="发送消息给子线程2"/>
 
+    <TextView
+        android:id="@+id/tv_obtain_send"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="使用Obtain的方式发送消息"/>
+
 
 </LinearLayout>
