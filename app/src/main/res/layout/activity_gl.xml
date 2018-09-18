@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:background="#999999"
         android:gravity="center"
-        android:text="手动"/>
+        android:text="OneRender"/>
 
     <TextView
         android:id="@+id/tv_triangle"

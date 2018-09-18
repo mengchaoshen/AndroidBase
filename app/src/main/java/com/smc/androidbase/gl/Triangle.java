@@ -17,8 +17,14 @@ public class Triangle {
 
     private FloatBuffer vertexBuffer;
 
-    static final int COORDS_PER_VERTEX = 3;
-    static float triangleCoords[] = {
+    /**
+     * 每个顶点的坐标个数，这里每个顶点有三个坐标
+     */
+    static final int COORDINATES_PER_VERTEX = 3;
+    /**
+     * 绘制三角形顶点的坐标，三个值为一组（一个顶点），三组（三个顶点）作为一个三角形。
+     */
+    static float sTriangleCoordinates[] = {
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
@@ -27,6 +33,9 @@ public class Triangle {
             -1f, -0f, 0.0f,
             0f, 1f, 0.0f,
     };
+    /**
+     * 颜色数组，以RGBA的形式存储
+     */
     float color[] = {
             255, 0, 0, 1.0f};
     //顶点
@@ -55,8 +64,8 @@ public class Triangle {
                     "  gl_Position = uMVPMatrix * vPosition;" + "}";
 
 
-    private final int vertexStride = COORDS_PER_VERTEX * 4;
-    private final int vertexCount = triangleCoords.length / COORDS_PER_VERTEX;
+    private final int vertexStride = COORDINATES_PER_VERTEX * 4;
+    private final int vertexCount = sTriangleCoordinates.length / COORDINATES_PER_VERTEX;
 
 
     private int mProgram;
@@ -67,10 +76,10 @@ public class Triangle {
 
     public Triangle() {
         //数据转换
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(triangleCoords.length * 4);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(sTriangleCoordinates.length * 4);
         byteBuffer.order(ByteOrder.nativeOrder());
         vertexBuffer = byteBuffer.asFloatBuffer();
-        vertexBuffer.put(triangleCoords);
+        vertexBuffer.put(sTriangleCoordinates);
         vertexBuffer.position(0);
 
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
@@ -85,7 +94,7 @@ public class Triangle {
         GLES20.glUseProgram(mProgram);
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT,
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDINATES_PER_VERTEX, GLES20.GL_FLOAT,
                 false, vertexStride, vertexBuffer);
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);

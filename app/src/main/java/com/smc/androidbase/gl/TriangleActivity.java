@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -27,6 +28,7 @@ public class TriangleActivity extends Activity {
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
+    private float[] mRotationMatrix = new float[16];
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, TriangleActivity.class));
@@ -36,6 +38,7 @@ public class TriangleActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GLSurfaceView glSurfaceView = new GLSurfaceView(this);
+        //设置EGL版本号
         glSurfaceView.setEGLContextClientVersion(2);//这个必须要设置，否则不会绘制任何内容
         glSurfaceView.setRenderer(new GLSurfaceView.Renderer() {
             @Override
@@ -50,6 +53,7 @@ public class TriangleActivity extends Activity {
 
             @Override
             public void onSurfaceChanged(GL10 gl, int width, int height) {
+                //用来指定OpenGL绘制的区域，x=0,y=0指的是屏幕的左下角
                 GLES20.glViewport(0, 0, width, height);
                 float ratio = (float)width / height;
                 Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
@@ -61,8 +65,15 @@ public class TriangleActivity extends Activity {
                         0f ,0f ,0f ,1.0f, 0.0f);
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-                mTriangle.draw(mMVPMatrix);
-                mSquare.draw();
+
+                float[] scratch = new float[16];
+                long time = SystemClock.uptimeMillis() % 4000L;
+                float angle = 0.090f * ((int)time);
+                Matrix.setRotateM(mRotationMatrix, 0, angle, 0, 0, -1.0f);
+                Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+
+                mTriangle.draw(scratch);
+//                mSquare.draw();
             }
         });
         setContentView(glSurfaceView);

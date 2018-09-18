@@ -28,6 +28,7 @@ public class OneRender implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        //大致意思应该是以COLOR_BUFFER_BIT的形式去渲染
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
     }
 }
