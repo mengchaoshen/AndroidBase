@@ -35,27 +35,26 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
         mContext = context;
         Log.d(TAG, "onReceive() action : " + intent.getAction());
-        if (intent.getAction().equals(ACTION)) {
-//            threadSleep();
-            mSubscription = Observable.interval(1, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
-                        @Override
-                        public void call(Long aLong) {
-                            if (isNetworkConnected(mContext)) {
-                                mSubscription.unsubscribe();
-                                if (intent.getAction().equals(ACTION)) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        context.startForegroundService(new Intent(context, CheckService.class));
-                                    } else {
-                                        context.startService(new Intent(context, CheckService.class));
-                                    }
-                                }
-                            }
-                        }
-                    });
-        }
+//        if (intent.getAction().equals(ACTION)) {
+//            mSubscription = Observable.interval(1, TimeUnit.SECONDS)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Action1<Long>() {
+//                        @Override
+//                        public void call(Long aLong) {
+//                            if (isNetworkConnected(mContext)) {
+//                                mSubscription.unsubscribe();
+//                                if (intent.getAction().equals(ACTION)) {
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                                        context.startForegroundService(new Intent(context, CheckService.class));
+//                                    } else {
+//                                        context.startService(new Intent(context, CheckService.class));
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    });
+//        }
     }
 
     public static boolean isNetworkConnected(Context context) {
