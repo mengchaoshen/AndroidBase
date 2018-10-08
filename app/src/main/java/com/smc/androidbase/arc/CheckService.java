@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.smc.androidbase.R;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -104,15 +106,18 @@ public class CheckService extends Service {
             @Override
             public void run() {
                 while (true) {
-                    Time currentTime = DateUtil.getTime(System.currentTimeMillis());
+                    long currentTimeLong = System.currentTimeMillis();
+                    Time currentTime = DateUtil.getTime(currentTimeLong);
                     if (checkTime(currentTime)) {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                getLoginAsp();
-                            }
-                        });
-                        getNextTime();
+                        if (isNotHoliday(currentTimeLong)) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getLoginAsp();
+                                }
+                            });
+                            getNextTime();
+                        }
                     }
                     try {
                         Thread.sleep(1 * 30 * 1000);
@@ -122,6 +127,22 @@ public class CheckService extends Service {
                 }
             }
         }).start();
+    }
+
+//    public static void main(String args[]){
+//        boolean isNotHoliday = isNotHoliday(System.currentTimeMillis());
+//        System.out.print(isNotHoliday);
+//    }
+
+    private static boolean isNotHoliday(long currentTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTime);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        Log.d(TAG, "isNotHoliday() dayOfWeek is = " + dayOfWeek);
+        if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) {
+            return false;
+        }
+        return true;
     }
 
     private boolean checkTime(Time current) {
