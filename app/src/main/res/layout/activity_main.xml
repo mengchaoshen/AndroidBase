@@ -53,6 +53,24 @@
                 android:text="Login"/>
 
             <TextView
+                android:id="@+id/tv_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="Dialog"/>
+
+            <TextView
+                android:id="@+id/tv_media"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="Media"/>
+
+            <TextView
                 android:id="@+id/tv_service"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -186,6 +204,15 @@
                 android:background="#999999"
                 android:gravity="center"
                 android:text="Animator"/>
+
+            <TextView
+                android:id="@+id/tv_launch_other"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="启动到其他app"/>
 
         </LinearLayout>
 

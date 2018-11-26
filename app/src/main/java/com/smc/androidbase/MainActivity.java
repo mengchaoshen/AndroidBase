@@ -1,13 +1,18 @@
 package com.smc.androidbase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smc.androidbase.animator.AnimatorActivity;
@@ -23,6 +28,7 @@ import com.smc.androidbase.ipc.AidlActivity;
 import com.smc.androidbase.ipc.MessageActivity;
 import com.smc.androidbase.ipc.SocketActivity;
 import com.smc.androidbase.launch.LaunchActivity;
+import com.smc.androidbase.media.MediaActivity;
 import com.smc.androidbase.message.HandlerActivity;
 import com.smc.androidbase.service.ServiceActivity;
 import com.smc.androidbase.utils.LocationUtil;
@@ -128,9 +134,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @OnClick({R.id.tv_service, R.id.tv_contentProvider, R.id.tv_fragment, R.id.tv_handler,
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
-            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl})
+            R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl,
+            R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_dialog:
+                showDialog();
+                break;
+            case R.id.tv_launch_other:
+                Intent intent = getPackageManager().getLaunchIntentForPackage("com.arcvideo.tyingyitonginhouse");
+                if (intent != null) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.tv_media:
+                MediaActivity.launch(this);
+                break;
             case R.id.tv_gl:
                 GLActivity.launch(this);
                 break;
@@ -205,5 +225,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println(d90);
         double d = Math.cos(Math.toRadians(90));
         System.out.println(d);
+    }
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog =
+                builder
+                .create();
+
+        ImageView imgV = new ImageView(this);
+        imgV.setImageResource(R.mipmap.ad01);
+
+        int w = imgV.getDrawable().getIntrinsicHeight();
+        int h = imgV.getDrawable().getIntrinsicHeight();
+//                            imgV.setImageResource(R.drawable.ad01);
+        dialog.setView(imgV);
+
+        //dialog.getWindow().setLayout(w,h);
+//        Window dialogWindow = dialog.getWindow();//获取window对象
+//        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+//
+//        dialogWindow.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);//设置横向全屏
+//        dialog.getWindow().setAttributes(params);
+
+        dialog.show();
     }
 }

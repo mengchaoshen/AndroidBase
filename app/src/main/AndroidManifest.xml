@@ -45,6 +45,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/SampleTheme.Light"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -98,6 +99,10 @@
         <activity android:name=".gl.OneOpenGLActivity"/>
 
         <activity android:name=".gl.TriangleActivity"/>
+
+        <activity android:name=".media.MediaActivity"/>
+
+        <activity android:name=".media.MediaCodecActivity"/>
 
         <service android:name=".service.BackService"/>
 
