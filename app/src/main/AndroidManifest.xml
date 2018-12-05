@@ -45,8 +45,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/SampleTheme.Light"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/SampleTheme.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -103,6 +103,11 @@
         <activity android:name=".media.MediaActivity"/>
 
         <activity android:name=".media.MediaCodecActivity"/>
+
+        <activity
+            android:name=".ListActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
 
         <service android:name=".service.BackService"/>
 

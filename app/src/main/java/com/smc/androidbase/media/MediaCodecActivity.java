@@ -8,7 +8,6 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -135,7 +134,6 @@ public class MediaCodecActivity extends Activity implements SurfaceHolder.Callba
                             mMediaCodec.queueInputBuffer(inputIndex, 0, sampleSize, mMediaExtractor.getSampleTime(), 0);
                             mMediaExtractor.advance();//表示下次read就是读取的下一个数据
                         }
-
                     }
                 }
 

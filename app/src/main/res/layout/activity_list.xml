@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smc.androidbase.MainActivity">
+
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:text="添加"/>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:text="减少"/>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.inputmethodservice.KeyboardView
+            android:id="@+id/kv_change"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:keyTextSize="48px"
+            android:keyBackground="@drawable/dish_rectangle_c7bfa1_bg"
+            android:keyTextColor="#5f5245"
+            android:shadowRadius="0.0" />
+    </FrameLayout>
+
+</LinearLayout>
