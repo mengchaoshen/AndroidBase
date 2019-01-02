@@ -137,6 +137,7 @@ public class MediaCodecActivity extends Activity implements SurfaceHolder.Callba
                     }
                 }
 
+                //outputIndex就是解码完，输出buffer的index
                 int outputIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 10000);
                 Log.d(TAG, "bufferInfo.presentationTimeUs=" + bufferInfo.presentationTimeUs +
                         ", bufferInfo.flags=" + bufferInfo.flags);
@@ -152,6 +153,7 @@ public class MediaCodecActivity extends Activity implements SurfaceHolder.Callba
                         Log.d(TAG, "INFO_TRY_AGAIN_LATER");
                         break;
                     default:
+                        //拿到输入的buffer
                         ByteBuffer buffer = outputBuffers[outputIndex];
 
                         //如果当前时间还没有到达时间戳的点，就会sleep(10)来等待
