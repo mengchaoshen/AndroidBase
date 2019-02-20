@@ -135,9 +135,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
             R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl,
-            R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog, R.id.tv_list})
+            R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog, R.id.tv_list, R.id.tv_chart})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_chart:
+                ChartActivity.launch(this);
+                break;
             case R.id.tv_list:
                 ListActivity.launch(this);
                 break;

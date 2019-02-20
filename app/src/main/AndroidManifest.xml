@@ -104,6 +104,8 @@
 
         <activity android:name=".media.MediaCodecActivity"/>
 
+        <activity android:name=".ChartActivity"/>
+
         <activity
             android:name=".ListActivity"
             android:windowSoftInputMode="stateAlwaysHidden"

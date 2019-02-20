@@ -53,6 +53,15 @@
                 android:text="Login"/>
 
             <TextView
+                android:id="@+id/tv_chart"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="图表绘制"/>
+
+            <TextView
                 android:id="@+id/tv_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

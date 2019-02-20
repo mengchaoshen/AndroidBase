@@ -65,4 +65,7 @@ dependencies {
 
     // 基础功能 (必需)
     compile 'com.netease.nimlib:basesdk:5.1.1'
+
+    //hellochart图表绘制库
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }
