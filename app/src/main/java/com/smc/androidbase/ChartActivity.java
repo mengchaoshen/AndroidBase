@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -38,24 +39,7 @@ public class ChartActivity extends Activity {
     private List<PointValue> mPointValues1;
     private List<PointValue> mPointValues2;
     private LineChartData mLineChartData;
-    private int mIndex;
-
-    private Handler mMainHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    mLinecharview.setLineChartData(mLineChartData);
-                    break;
-                case 1:
-                    break;
-                default:
-                    break;
-            }
-
-            return false;
-        }
-    });
+    private int mIndex = 6;
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, ChartActivity.class));
@@ -75,26 +59,33 @@ public class ChartActivity extends Activity {
 
         mLineChartData = new LineChartData();
         mLineChartData.setLines(lineList);
-
-        Axis axisX = new Axis();
-        axisX.setTextColor(Color.GRAY);
-        axisX.setTextSize(8);
-        axisX.generateAxisFromRange(0, 10, 1);
-        mLineChartData.setAxisXBottom(axisX);
-
-        Axis axisY = new Axis();
-        axisY.setTextColor(Color.GRAY);
-        axisY.setTextSize(8);
-        axisY.generateAxisFromRange(0, 100, 10);
-        mLineChartData.setAxisYLeft(axisY);
+        mLineChartData.setAxisXBottom(buildAxisX(0.0f));
+        mLineChartData.setAxisYLeft(buildAxisY());
         mLinecharview.setLineChartData(mLineChartData);
 
-        Viewport v = new Viewport(mLinecharview.getMaximumViewport());
-        v.left = 0;
-        v.right = 10;
-        mLinecharview.setCurrentViewport(v);
+        Viewport currentPort = new Viewport(0.0f, 100f, 10.0f, 0.0f);
+        Viewport MaxPort = new Viewport(0.0f, 100f, 10.0f, 0.0f);
+        mLinecharview.setMaximumViewport(MaxPort);
+        mLinecharview.setCurrentViewport(currentPort);
         addPoint();
     }
+
+    private Axis buildAxisX(float from) {
+        Axis axisX = Axis.generateAxisFromRange(from, from + 10f, 1f);
+        axisX.setTextColor(Color.GRAY);
+        axisX.setTextSize(8);
+        axisX.setName("时间(s)");
+        return axisX;
+    }
+
+    private Axis buildAxisY() {
+        Axis axisX = Axis.generateAxisFromRange(0f, 100f, 10f);
+        axisX.setTextColor(Color.GRAY);
+        axisX.setTextSize(8);
+        axisX.setName("参数值(%)");
+        return axisX;
+    }
+
 
     private void addPoint() {
         new Thread(new Runnable() {
@@ -124,7 +115,14 @@ public class ChartActivity extends Activity {
 //                        Log.i("chart", "恭喜在第" + mIndex + "次中签");
 //                        mIndex = 1;
 //                    }
-                    mMainHandler.sendEmptyMessage(0);
+                    mLineChartData.setAxisXBottom(buildAxisX(mPointValues1.get(0).getX()));
+                    mLinecharview.setLineChartData(mLineChartData);
+                    Viewport currentPort = new Viewport(mPointValues1.get(0).getX() + 0.0f, 100f, mPointValues1.get(0).getX() + 10.0f, 0.0f);
+//                    Viewport MaxPort = new Viewport(0.0f, 100f, 10.0f, 0.0f);
+                    mLinecharview.setMaximumViewport(currentPort);
+                    mLinecharview.setCurrentViewport(currentPort);
+
+//                    mMainHandler.sendEmptyMessage(0);
                 }
             }
         }).start();
@@ -132,43 +130,44 @@ public class ChartActivity extends Activity {
 
     private Line buildLine1() {
         mPointValues1 = new ArrayList<>();
-//        PointValue pointValue1 = new PointValue(0, 10);
-//        PointValue pointValue2 = new PointValue(1, 40);
-//        PointValue pointValue3 = new PointValue(2, 13);
-//        PointValue pointValue4 = new PointValue(3, 104);
-//        PointValue pointValue5 = new PointValue(4, 12);
-//        PointValue pointValue6 = new PointValue(5, 42);
-//        PointValue pointValue7 = new PointValue(6, 86);
-//        mPointValues1.add(pointValue1);
-//        mPointValues1.add(pointValue2);
-//        mPointValues1.add(pointValue3);
-//        mPointValues1.add(pointValue4);
-//        mPointValues1.add(pointValue5);
-//        mPointValues1.add(pointValue6);
-//        mPointValues1.add(pointValue7);
+        PointValue pointValue1 = new PointValue(0, 10);
+        PointValue pointValue2 = new PointValue(1, 40);
+        PointValue pointValue3 = new PointValue(2, 13);
+        PointValue pointValue4 = new PointValue(3, 98);
+        PointValue pointValue5 = new PointValue(4, 12);
+        PointValue pointValue6 = new PointValue(5, 42);
+        PointValue pointValue7 = new PointValue(6, 86);
+        mPointValues1.add(pointValue1);
+        mPointValues1.add(pointValue2);
+        mPointValues1.add(pointValue3);
+        mPointValues1.add(pointValue4);
+        mPointValues1.add(pointValue5);
+        mPointValues1.add(pointValue6);
+        mPointValues1.add(pointValue7);
 
         Line line = new Line();
         line.setValues(mPointValues1);
         line.setColor(Color.BLUE).setCubic(true);
+        line.setHasLabels(true);
         return line;
     }
 
     private Line buildLine2() {
         mPointValues2 = new ArrayList<>();
-//        PointValue pointValue1 = new PointValue(0, 22);
-//        PointValue pointValue2 = new PointValue(1, 12);
-//        PointValue pointValue3 = new PointValue(2, 31);
-//        PointValue pointValue4 = new PointValue(3, 12);
-//        PointValue pointValue5 = new PointValue(4, 67);
-//        PointValue pointValue6 = new PointValue(5, 12);
-//        PointValue pointValue7 = new PointValue(6, 35);
-//        mPointValues2.add(pointValue1);
-//        mPointValues2.add(pointValue2);
-//        mPointValues2.add(pointValue3);
-//        mPointValues2.add(pointValue4);
-//        mPointValues2.add(pointValue5);
-//        mPointValues2.add(pointValue6);
-//        mPointValues2.add(pointValue7);
+        PointValue pointValue1 = new PointValue(0, 22);
+        PointValue pointValue2 = new PointValue(1, 12);
+        PointValue pointValue3 = new PointValue(2, 31);
+        PointValue pointValue4 = new PointValue(3, 12);
+        PointValue pointValue5 = new PointValue(4, 67);
+        PointValue pointValue6 = new PointValue(5, 12);
+        PointValue pointValue7 = new PointValue(6, 35);
+        mPointValues2.add(pointValue1);
+        mPointValues2.add(pointValue2);
+        mPointValues2.add(pointValue3);
+        mPointValues2.add(pointValue4);
+        mPointValues2.add(pointValue5);
+        mPointValues2.add(pointValue6);
+        mPointValues2.add(pointValue7);
 
         Line line = new Line();
         line.setValues(mPointValues2);
