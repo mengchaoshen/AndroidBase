@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smc.androidbase.MainActivity">
+
+    <EditText
+        android:id="@+id/et_userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入用户名"/>
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="登录"/>
+
+    <EditText
+        android:id="@+id/et_roomName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入房间号"/>
+
+    <TextView
+        android:id="@+id/tv_create_room"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="创建房间"/>
+
+    <TextView
+        android:id="@+id/tv_join_room"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="加入房间"/>
+
+</LinearLayout>

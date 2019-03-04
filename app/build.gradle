@@ -63,8 +63,12 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
 
-    // 基础功能 (必需)
-    compile 'com.netease.nimlib:basesdk:5.1.1'
+    // 网易云信基础功能 (必需)
+    compile 'com.netease.nimlib:basesdk:6.1.2'
+    // 音视频需要
+    compile 'com.netease.nimlib:nrtc:6.1.2'
+    // 音视频需要
+    compile 'com.netease.nimlib:avchat:6.1.2'
 
     //hellochart图表绘制库
     compile 'com.github.lecho:hellocharts-android:v1.5.8'

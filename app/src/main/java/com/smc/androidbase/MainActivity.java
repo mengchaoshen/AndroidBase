@@ -30,6 +30,7 @@ import com.smc.androidbase.ipc.SocketActivity;
 import com.smc.androidbase.launch.LaunchActivity;
 import com.smc.androidbase.media.MediaActivity;
 import com.smc.androidbase.message.HandlerActivity;
+import com.smc.androidbase.rtc.NetEaseMainActivity;
 import com.smc.androidbase.service.ServiceActivity;
 import com.smc.androidbase.utils.LocationUtil;
 
@@ -135,9 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.tv_arcrtc, R.id.tv_event, R.id.tv_handler_thread, R.id.tv_lru_cache,
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
             R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl,
-            R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog, R.id.tv_list, R.id.tv_chart})
+            R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog, R.id.tv_list, R.id.tv_chart,
+            R.id.tv_netease})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_netease:
+                NetEaseMainActivity.launch(this);
+                break;
             case R.id.tv_chart:
                 ChartActivity.launch(this);
                 break;

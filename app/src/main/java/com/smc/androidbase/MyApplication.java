@@ -78,6 +78,7 @@ public class MyApplication extends Application {
 
         // 配置是否需要预下载附件缩略图，默认为 true
         options.preloadAttach = true;
+        options.sdkStorageRootPath = "sdcard/";
 
         // 配置附件缩略图的尺寸大小。表示向服务器请求缩略图文件的大小
         // 该值一般应根据屏幕尺寸来确定， 默认值为 Screen.width / 2
