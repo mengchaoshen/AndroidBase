@@ -16,7 +16,9 @@ public class WaitAndNotify {
         long start = System.currentTimeMillis();
         synchronized (mObject){
             try {
-                mObject.wait();
+                //调用wait方法，如果在方法里面写入millis时长，当时间过去后，会自动进入run状态
+                //如果在时间之前，有其他地方执行notify,将会提前进入run状态
+                mObject.wait(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -39,7 +41,7 @@ public class WaitAndNotify {
             super.run();
             synchronized (mObject) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                     mObject.notifyAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -3,6 +3,8 @@ package com.smc.androidbase.thread;
 /**
  * @author shenmengchao
  * @version 1.0.0
+ * https://blog.csdn.net/qq_30379689/article/details/53863082
+ * 这个博客写的不错
  */
 
 public class SyncTest {
@@ -120,14 +122,14 @@ public class SyncTest {
 //            }
 //        }.start();
 
-//        WaitAndNotify waitAndNotify = new WaitAndNotify();
-////        waitAndNotify.start();
+        WaitAndNotify waitAndNotify = new WaitAndNotify();
+        waitAndNotify.start();
 //        waitAndNotify.startThreadControl();
 
 //        Join join = new Join();
 //        join.start();
-        Yield yield = new Yield();
-        yield.start();
+//        Yield yield = new Yield();
+//        yield.start();
     }
 
 
