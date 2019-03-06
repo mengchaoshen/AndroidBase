@@ -9,6 +9,11 @@ import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -19,16 +24,9 @@ import javax.microedition.khronos.opengles.GL10;
  * @date 2018/9/4
  * @description
  */
-
 public class TriangleActivity extends Activity {
 
-    Triangle mTriangle;
-    Square mSquare;
-
-    private final float[] mMVPMatrix = new float[16];
-    private final float[] mProjectionMatrix = new float[16];
-    private final float[] mViewMatrix = new float[16];
-    private float[] mRotationMatrix = new float[16];
+    private final static String TAG = TriangleActivity.class.getSimpleName();
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, TriangleActivity.class));
@@ -39,43 +37,113 @@ public class TriangleActivity extends Activity {
         super.onCreate(savedInstanceState);
         GLSurfaceView glSurfaceView = new GLSurfaceView(this);
         //设置EGL版本号
-        glSurfaceView.setEGLContextClientVersion(2);//这个必须要设置，否则不会绘制任何内容
-        glSurfaceView.setRenderer(new GLSurfaceView.Renderer() {
-            @Override
-            public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-                //绘制背景色
-                GLES20.glClearColor(0.1f, 0.0f, 0.0f, 1.0f);
-
-
-                mTriangle = new Triangle();
-                mSquare = new Square();
-            }
-
-            @Override
-            public void onSurfaceChanged(GL10 gl, int width, int height) {
-                //用来指定OpenGL绘制的区域，x=0,y=0指的是屏幕的左下角
-                GLES20.glViewport(0, 0, width, height);
-                float ratio = (float)width / height;
-                Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
-            }
-
-            @Override
-            public void onDrawFrame(GL10 gl) {
-                Matrix.setLookAtM(mViewMatrix, 0, 0,0, -3, 0f ,
-                        0f ,0f ,0f ,1.0f, 0.0f);
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-
-
-                float[] scratch = new float[16];
-                long time = SystemClock.uptimeMillis() % 4000L;
-                float angle = 0.090f * ((int)time);
-                Matrix.setRotateM(mRotationMatrix, 0, angle, 0, 0, -1.0f);
-                Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-
-                mTriangle.draw(scratch);
-//                mSquare.draw();
-            }
-        });
+        glSurfaceView.setEGLContextClientVersion(2);
+        glSurfaceView.setRenderer(new MyRender());
+        glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         setContentView(glSurfaceView);
     }
+
+    public class MyRender implements GLSurfaceView.Renderer {
+
+        private static final String VERTEX_SHADER =
+                "attribute vec2 vPosition;\n" +
+                        "void main(){\n" +
+                        "   gl_Position = vec4(vPosition,0,1);\n" +
+                        "}";
+
+        private static final String FRAGMENT_SHADER =
+                "precision mediump float;\n" +
+                        "uniform vec4 uColor;\n" +
+                        "void main(){\n" +
+                        "gl_FragColor = uColor;\n" +
+                        "}";
+
+        private int vPosition;
+        private int uColor;
+        private int program;
+
+        private int createProgram() {
+            int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, VERTEX_SHADER);
+            if (0 == vertexShader) {
+                return 0;
+            }
+            int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, FRAGMENT_SHADER);
+            if (0 == fragmentShader) {
+                return 0;
+            }
+            int program = GLES20.glCreateProgram();
+            GLES20.glAttachShader(program, vertexShader);
+            GLES20.glAttachShader(program, fragmentShader);
+            GLES20.glLinkProgram(program);
+            int[] iv = new int[1];
+            GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, iv, 0);
+            if (iv[0] == 0) {
+                Log.e(TAG, "program compile error");
+                GLES20.glDeleteProgram(program);
+                program = 0;
+            }
+            return program;
+        }
+
+        /**
+         * 加载定制化的shader
+         *
+         * @param shaderType
+         * @param shaderSource
+         * @return
+         */
+        private int loadShader(int shaderType, String shaderSource) {
+            int shader = GLES20.glCreateShader(shaderType);
+            if (0 != shader) {
+                GLES20.glShaderSource(shader, shaderSource);
+                GLES20.glCompileShader(shader);
+                int[] iv = new int[1];
+                GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, iv, 0);
+                if (iv[0] == 0) {
+                    Log.e(TAG, "shader compile error" + GLES20.glGetShaderInfoLog(shader));
+                    GLES20.glDeleteShader(shader);
+                    shader = 0;
+                }
+            }
+            return shader;
+        }
+
+        private FloatBuffer getVertices() {
+            float[] vertices = {
+                    1f, -1f, 0f, 1f, -1f, -1f
+            };
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
+            byteBuffer.order(ByteOrder.nativeOrder());
+            FloatBuffer floatBuffer = byteBuffer.asFloatBuffer();
+            floatBuffer.put(vertices);
+            floatBuffer.position(0);
+            return floatBuffer;
+        }
+
+        @Override
+        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+            program = createProgram();
+            vPosition = GLES20.glGetAttribLocation(program, "vPosition");
+            uColor = GLES20.glGetUniformLocation(program, "uColor");
+            GLES20.glClearColor(1f, 0f, 0f, 1f);
+        }
+
+        @Override
+        public void onSurfaceChanged(GL10 gl, int width, int height) {
+            GLES20.glViewport(0, 0, width, height);
+        }
+
+        @Override
+        public void onDrawFrame(GL10 gl) {
+            FloatBuffer floatBuffer = getVertices();
+            GLES20.glClear(GLES20.GL_COLOR_CLEAR_VALUE | GLES20.GL_DEPTH_CLEAR_VALUE);
+            GLES20.glUseProgram(program);
+            GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 0, floatBuffer);
+            GLES20.glEnableVertexAttribArray(vPosition);
+            GLES20.glUniform4f(uColor, 1f, 0f, 1f, 1f);
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 3);
+        }
+    }
+
+
 }
