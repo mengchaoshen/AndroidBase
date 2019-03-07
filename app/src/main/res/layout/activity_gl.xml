@@ -24,4 +24,13 @@
         android:gravity="center"
         android:text="绘制三角形"/>
 
+    <TextView
+        android:id="@+id/tv_egl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        android:text="EGL"/>
+
 </LinearLayout>

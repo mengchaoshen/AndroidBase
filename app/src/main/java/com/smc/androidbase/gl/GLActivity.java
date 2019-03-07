@@ -61,7 +61,7 @@ public class GLActivity extends Activity {
 //        setContentView(glSurfaceView);
     }
 
-    @OnClick({R.id.tv_one_gl, R.id.tv_triangle})
+    @OnClick({R.id.tv_one_gl, R.id.tv_triangle, R.id.tv_egl})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_one_gl:
@@ -69,6 +69,9 @@ public class GLActivity extends Activity {
                 break;
             case R.id.tv_triangle:
                 TriangleActivity.launch(this);
+                break;
+            case R.id.tv_egl:
+                EglActivity.launch(this);
                 break;
         }
     }
