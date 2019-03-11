@@ -20,14 +20,14 @@ public abstract class GLRender extends Thread {
 
     private final static String TAG = GLRender.class.getSimpleName();
 
-    private GlSurface mGlSurface;
+    private GLSurface mGlSurface;
     private EGLDisplay mEGLDisplay;
     private EGLConfig mEGLConfig;
     private EGLContext mEGLContext;
     private boolean mIsRelease;
     private boolean mIsRendering;
     private ArrayBlockingQueue<Event> mEventQueue;
-    private List<GlSurface> mOutputSurfaceList;
+    private List<GLSurface> mOutputSurfaceList;
 
     public GLRender() {
         mEventQueue = new ArrayBlockingQueue<>(100);
@@ -35,22 +35,33 @@ public abstract class GLRender extends Thread {
     }
 
 
-    private boolean makeOutputSurface(GlSurface glSurface) {
+    private boolean makeOutputSurface(GLSurface glSurface) {
         switch (glSurface.type) {
-            case GlSurface.TYPE_WINDOW_SURFACE:
+            case GLSurface.TYPE_WINDOW_SURFACE: {
                 final int[] attribList = {
                         EGL14.EGL_NONE
                 };
                 glSurface.eglSurface = EGL14.eglCreateWindowSurface(mEGLDisplay, mEGLConfig,
                         glSurface.surface, attribList, 0);
                 break;
+            }
+            case GLSurface.TYPE_PBUFFER_SURFACE: {
+                final int[] attribList = {
+                        EGL14.EGL_WIDTH, glSurface.viewPort.width,
+                        EGL14.EGL_HEIGHT, glSurface.viewPort.height,
+                        EGL14.EGL_NONE
+                };
+                glSurface.eglSurface = EGL14.eglCreatePbufferSurface(mEGLDisplay, mEGLConfig,
+                        attribList, 0);
+                break;
+            }
             default:
                 break;
         }
         return true;
     }
 
-    public void addSurface(GlSurface surface) {
+    public void addSurface(GLSurface surface) {
         Event event = new Event();
         event.type = Event.ADD_SURFACE;
         event.param = surface;
@@ -60,7 +71,7 @@ public abstract class GLRender extends Thread {
         }
     }
 
-    public void removeSurface(GlSurface surface) {
+    public void removeSurface(GLSurface surface) {
         Event event = new Event();
         event.type = Event.REMOVE_SURFACE;
         event.param = surface;
@@ -97,7 +108,7 @@ public abstract class GLRender extends Thread {
     public void runnable(Runnable runnable) {
         Event event = new Event(Event.RUNNABLE);
         event.param = runnable;
-        boolean isSuccess = mEventQueue.add(new Event(Event.RUNNABLE));
+        boolean isSuccess = mEventQueue.add(event);
         if (!isSuccess) {
             Log.e(TAG, "runnable() mEventQueue.add is error");
         }
@@ -121,15 +132,15 @@ public abstract class GLRender extends Thread {
             try {
                 //这里使用ArrayBlockingQueue.take()的原因是，当队列里面没有数据时，会进入等待
                 event = mEventQueue.take();
-                GlSurface surface = null;
+                GLSurface surface = null;
                 switch (event.type) {
                     case Event.ADD_SURFACE:
-                        surface = (GlSurface) event.param;
+                        surface = (GLSurface) event.param;
                         makeOutputSurface(surface);
                         mOutputSurfaceList.add(surface);
                         break;
                     case Event.REMOVE_SURFACE:
-                        surface = (GlSurface) event.param;
+                        surface = (GLSurface) event.param;
                         EGL14.eglDestroySurface(mEGLDisplay, surface.eglSurface);
                         mOutputSurfaceList.remove(surface);
                         break;
@@ -159,7 +170,7 @@ public abstract class GLRender extends Thread {
             }
         }
         onDestroy();
-        for (GlSurface output : mOutputSurfaceList) {
+        for (GLSurface output : mOutputSurfaceList) {
             EGL14.eglDestroySurface(mEGLDisplay, output.eglSurface);
             output.eglSurface = EGL14.EGL_NO_SURFACE;
         }
@@ -174,7 +185,7 @@ public abstract class GLRender extends Thread {
     }
 
     private void render() {
-        for (GlSurface glSurface : mOutputSurfaceList) {
+        for (GLSurface glSurface : mOutputSurfaceList) {
             if (glSurface.eglSurface == EGL14.EGL_NO_SURFACE) {
                 makeOutputSurface(glSurface);
             }

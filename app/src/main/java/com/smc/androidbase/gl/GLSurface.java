@@ -9,7 +9,7 @@ import android.view.Surface;
  * @version 1.0.0
  */
 
-public class GlSurface {
+public class GLSurface {
 
     public final static int TYPE_WINDOW_SURFACE = 1;
     public final static int TYPE_PBUFFER_SURFACE = 2;
@@ -20,7 +20,13 @@ public class GlSurface {
     public ViewPort viewPort = new ViewPort();
     public int type;
 
-    public GlSurface(Surface surface, int width, int height){
+    public GLSurface(int width, int height){
+        this.surface = null;
+        this.viewPort = new ViewPort(0, 0, width, height);
+        this.type = TYPE_PBUFFER_SURFACE;
+    }
+
+    public GLSurface(Surface surface, int width, int height){
         this.surface = surface;
         this.viewPort = new ViewPort(0, 0, width, height);
         this.type = TYPE_WINDOW_SURFACE;
