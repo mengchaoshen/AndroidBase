@@ -18,8 +18,7 @@ import butterknife.OnClick;
  * @author shenmengchao
  * @version 1.0.0
  * @date 2018/9/4
- * @description
- * 介绍OpenGL的文章：https://www.jianshu.com/p/92d02ac80611
+ * @description 介绍OpenGL的文章：https://www.jianshu.com/p/92d02ac80611
  */
 
 public class GLActivity extends Activity {
@@ -61,7 +60,7 @@ public class GLActivity extends Activity {
 //        setContentView(glSurfaceView);
     }
 
-    @OnClick({R.id.tv_one_gl, R.id.tv_triangle, R.id.tv_egl})
+    @OnClick({R.id.tv_one_gl, R.id.tv_triangle, R.id.tv_egl, R.id.tv_egl2})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_one_gl:
@@ -72,6 +71,9 @@ public class GLActivity extends Activity {
                 break;
             case R.id.tv_egl:
                 EglActivity.launch(this);
+                break;
+            case R.id.tv_egl2:
+                Egl2Activity.launch(this);
                 break;
         }
     }

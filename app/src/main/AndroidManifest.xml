@@ -115,6 +115,8 @@
 
         <activity android:name=".gl.EglActivity"/>
 
+        <activity android:name=".gl.Egl2Activity"/>
+
         <activity android:name=".gl.OneOpenGLActivity"/>
 
         <activity android:name=".gl.TriangleActivity"/>

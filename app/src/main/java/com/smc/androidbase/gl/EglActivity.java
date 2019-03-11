@@ -190,6 +190,10 @@ public class EglActivity extends Activity {
             mEGLContext = EGL14.EGL_NO_CONTEXT;
         }
 
+        /**
+         * 由于EGL方法的调用需要在同一个线程中，所以需要用HandlerThread来控制调用的线程
+         * 这样保证了start()和release()是在同一线程中
+         */
         public void start() {
             super.start();
             new Handler(getLooper()).post(new Runnable() {
@@ -210,7 +214,16 @@ public class EglActivity extends Activity {
             });
         }
 
-        public void render(Surface surface, int width, int height) {
+        public void render(final Surface surface, final int width, final int height){
+            new Handler(getLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    renderGL(surface, width, height);
+                }
+            });
+        }
+
+        private void renderGL(Surface surface, int width, int height) {
             int[] surfaceAttribs = {
                     EGL14.EGL_NONE
             };
