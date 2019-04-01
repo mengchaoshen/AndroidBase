@@ -37,6 +37,13 @@ public class Test {
         System.out.println(testRegular("03"));
         System.out.println(testRegular("000"));
         System.out.println(testRegular("123"));
+
+        int width = 1281;
+        int height = 720;
+        float ratio = (float)width / (float)height;
+        width = Float.floatToIntBits(Float.intBitsToFloat(height)*ratio);
+
+        System.out.println(width);
     }
 
     private static boolean testRegular(String str){

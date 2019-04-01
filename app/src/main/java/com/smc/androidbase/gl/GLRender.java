@@ -125,7 +125,7 @@ public abstract class GLRender extends Thread {
     @Override
     public void run() {
         super.run();
-        createGl();
+        createGL();
         onCreate();
         while (!mIsRelease) {
             Event event = null;
@@ -196,7 +196,7 @@ public abstract class GLRender extends Thread {
         }
     }
 
-    private void createGl() {
+    private void createGL() {
         mEGLDisplay = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
         int[] version = new int[2];
         boolean initSuccess = EGL14.eglInitialize(mEGLDisplay, version, 0, version, 1);

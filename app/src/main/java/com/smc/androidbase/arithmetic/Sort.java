@@ -14,20 +14,42 @@ public class Sort {
     public static void main(String args[]) {
 
         int number = 10000;
-        System.out.println("time1 " + System.currentTimeMillis());
-        System.out.println("quickSort " + quickSort(buildList(number)));//快速排序100位->3ms 1000位->15ms 10000位->25ms
-        System.out.println("time2 " + System.currentTimeMillis());
-        System.out.println("selectSort " + selectSort(buildList(number)));//选择排序100位->1ms 1000位->16ms 10000位->94ms
-        System.out.println("time3 " + System.currentTimeMillis());
-        System.out.println("boboSort " + boboSort(buildList(number)));//冒泡排序100位->6ms 1000位->51ms 10000位->94ms
-        System.out.println("time4 " + System.currentTimeMillis());
+//        System.out.println("time1 " + System.currentTimeMillis());
+//        System.out.println("quickSort " + quickSort(buildList(number)));//快速排序100位->3ms 1000位->15ms 10000位->25ms
+//        System.out.println("time2 " + System.currentTimeMillis());
+//        System.out.println("selectSort " + selectSort(buildList(number)));//选择排序100位->1ms 1000位->16ms 10000位->94ms
+//        System.out.println("time3 " + System.currentTimeMillis());
+//        System.out.println("boboSort " + boboSort(buildList(number)));//冒泡排序100位->6ms 1000位->51ms 10000位->94ms
+//        System.out.println("time4 " + System.currentTimeMillis());
 
+        System.out.println("---insertSort");
+        List<Integer> result = insertSort(buildList(10));
+        System.out.println(result);
+    }
+
+    static List<Integer> insertSort(List<Integer> list) {
+        List<Integer> result = new ArrayList<>();
+        result.add(list.get(0));
+        for (int i = 1; i < list.size(); i++) {
+            for (int j = 0; j < result.size(); j++) {
+                if (result.get(j) >= list.get(i)) {
+                    result.add(j, list.get(i));
+                    break;
+                }
+                if (j == result.size() - 1) {
+                    result.add(list.get(i));
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     /**
      * 快速排序
      * 原理：先以第一个参数作为基准，大于的放前面，小于的放后面，再分别已快速排序排列这大小两个列表，依次循环
      * 直到列表长度为1
+     *
      * @param list
      * @return
      */
@@ -116,9 +138,9 @@ public class Sort {
         list.add(1);
         list.add(2);
         list.add(7);
-        for (int i = 0; i < number; i++) {
-            list.add((int) (Math.random() * 10000));
-        }
+//        for (int i = 0; i < number; i++) {
+//            list.add((int) (Math.random() * 10000));
+//        }
         return list;
     }
 

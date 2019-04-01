@@ -1,6 +1,9 @@
 package com.smc.androidbase.gl;
 
+import android.content.Intent;
 import android.opengl.GLES20;
+
+import com.smc.androidbase.MainActivity;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -35,6 +38,12 @@ public class MyRender extends GLRender {
         program = ShaderUtil.createProgram(VERTEX_SHADER, FRAGMENT_SHADER);
         vPosition = GLES20.glGetAttribLocation(program, "vPosition");
         uColor = GLES20.glGetUniformLocation(program, "uColor");
+
+
+    }
+
+    public void setActivity(Class<?>  clazz){
+        Intent intent = new Intent(null, clazz);
     }
 
     @Override
