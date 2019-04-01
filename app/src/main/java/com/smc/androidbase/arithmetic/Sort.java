@@ -22,9 +22,64 @@ public class Sort {
 //        System.out.println("boboSort " + boboSort(buildList(number)));//冒泡排序100位->6ms 1000位->51ms 10000位->94ms
 //        System.out.println("time4 " + System.currentTimeMillis());
 
-        System.out.println("---insertSort");
-        List<Integer> result = insertSort(buildList(10));
-        System.out.println(result);
+//        System.out.println("---insertSort");
+//        List<Integer> result = insertSort(buildList(10));
+//        System.out.println(result);
+
+        System.out.println("---mergeSort");
+        int[] a = {4, 3, 1, 2, 7,10};
+//        int[] left = {3, 4};
+//        int[] right = {1,2,7};
+//        int[] m = merge(left, right);
+//        System.out.println(m);
+        int[] r = mergeSort(a, 0, a.length - 1);
+        System.out.println(r);
+    }
+
+    /**
+     * 归并排序算法
+     * @param a 需要排序的数组
+     * @param q 需要排序数组的起点
+     * @param p 需要排序数组的终点
+     * @return
+     */
+    static int[] mergeSort(int[] a, int q, int p) {
+        if (p > q) {
+            int r = (q + p) / 2;
+            int[] left = mergeSort(a, q, r);
+            int[] right = mergeSort(a, r + 1, p);
+            return merge(left, right);
+        }
+        return new int[]{a[q]};
+    }
+
+    /**
+     * 归并算法中的合并部分
+     *
+     * @param left
+     * @param right
+     * @return
+     */
+    static int[] merge(int[] left, int[] right) {
+        int[] a = new int[left.length + right.length];
+        int i = 0;
+        int j = 0;
+        while (i < left.length || j < right.length) {
+            if (i == left.length) {
+                a[i + j] = right[j];
+                j++;
+            } else if (j == right.length) {
+                a[i + j] = left[i];
+                i++;
+            } else if (left[i] > right[j]) {
+                a[i + j] = right[j];
+                j++;
+            } else if (left[i] < right[j]) {
+                a[i + j] = left[i];
+                i++;
+            }
+        }
+        return a;
     }
 
     static List<Integer> insertSort(List<Integer> list) {
