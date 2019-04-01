@@ -1,6 +1,7 @@
 package com.smc.androidbase.arithmetic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +23,67 @@ public class DynamicProgramming {
 
         int maxSequenceLength = findMaxChildSequence("fosh", "fish");
         System.out.println("maxSequence length = " + maxSequenceLength);
+
+        Product[] p = buildProductSet().toArray(new Product[5]);
+        int w = 15;
+        int[][] cell = knapsackDP(p, w);
+        outputKnapsackDP(cell, w, p);
+    }
+
+    /**
+     * 使用动态规划的思路，计算背包中放置达到最大价值
+     *
+     * @param p 拥有的物品
+     * @param w 背包的重量
+     * @return
+     */
+    static int[][] knapsackDP(Product[] p, int w) {
+        int[][] cell = new int[p.length][w + 1];
+        for (int i = 0; i < p.length; i++) {
+            for (int j = 0; j <= w; j++) {
+                if (p[i].weight > j) {//当前物品重量大于当前背包分配容量
+                    cell[i][j] = i == 0 ? 0 : cell[i - 1][j];
+                } else {
+                    if (i == 0) {
+                        cell[i][j] = p[i].price;
+                    } else {
+                        int wr = j - p[i].weight;
+                        cell[i][j] = Math.max(p[i].price + cell[i - 1][wr], cell[i - 1][j]);
+                    }
+                }
+            }
+        }
+        printArray(cell);
+        return cell;
+    }
+
+    static void outputKnapsackDP(int[][] cell, int w, Product[] p) {
+        int[] o = new int[cell.length];
+        for (int i = cell.length - 1; i > 0; i--) {
+            if (cell[i - 1][w] == cell[i][w]) {
+                o[i] = 0;
+            } else {
+                o[i] = 1;
+                w = w - p[i].weight;
+            }
+        }
+        o[0] = cell[0][w] == 0 ? 0 : 1;
+        printArray(o);
+    }
+
+    static void printArray(int[] cell) {
+        for (int i = 0; i < cell.length; i++) {
+            System.out.print(cell[i] + ",");
+        }
+    }
+
+    static void printArray(int[][] cell) {
+        for (int i = 0; i < cell.length; i++) {
+            for (int j = 0; j < cell[i].length; j++) {
+                System.out.print(cell[i][j] + ",");
+            }
+            System.out.println(" ");
+        }
     }
 
     /**
@@ -138,10 +200,11 @@ public class DynamicProgramming {
 
     private static List<Product> buildProductSet() {
         List<Product> l = new ArrayList<>();
-        l.add(new Product("吉他", 1, 1500));
-        l.add(new Product("笔记本电脑", 3, 2000));
-        l.add(new Product("音响", 4, 3000));
-        l.add(new Product("iPhohe", 1, 2000));
+        l.add(new Product("吉他", 3, 4));
+        l.add(new Product("笔记本电脑", 4, 5));
+        l.add(new Product("音响", 7, 10));
+        l.add(new Product("iPhohe", 8, 11));
+        l.add(new Product("iPhohe", 9, 13));
         return l;
     }
 
@@ -175,6 +238,11 @@ public class DynamicProgramming {
         int weight;
         int price;
         String name;
+
+        public Product(int weight, int price) {
+            this.weight = weight;
+            this.price = price;
+        }
 
         public Product(String name, int weight, int price) {
             this.weight = weight;
