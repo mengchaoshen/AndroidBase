@@ -28,6 +28,61 @@ public class DynamicProgramming {
         int w = 15;
         int[][] cell = knapsackDP(p, w);
         outputKnapsackDP(cell, w, p);
+
+        System.out.println("\n---lcs");
+        lcs("ABCBDAB".toCharArray(), "BDCABA".toCharArray());
+    }
+
+    /**
+     * 求解两个字符串的最长公共子序列LCS
+     * @param c1 第一个字符串
+     * @param c2 第二个字符串
+     * @return
+     */
+    static String lcs(char[] c1, char[] c2) {
+        int[][] l = new int[c1.length + 1][c2.length + 1];
+        int[][] b = new int[c1.length + 1][c2.length + 1];
+        int tlt = 0;//指向斜上左方
+        int tl = 1;//指向左方
+        int tt = 2;//指向上方
+        for (int i = 1; i <= c1.length; i++) {
+            for (int j = 1; j <= c2.length; j++) {
+                if (c1[i - 1] == c2[j - 1]) {//遍历的两个字符相等
+                    l[i][j] = l[i - 1][j - 1] + 1;
+                    b[i][j] = tlt;
+                } else {
+                    if (l[i][j - 1] > l[i - 1][j]) {//左方数字 > 上方数字
+                        l[i][j] = l[i][j - 1];
+                        b[i][j] = tl;
+                    } else {
+                        l[i][j] = l[i - 1][j];
+                        b[i][j] = tt;
+                    }
+                }
+            }
+        }
+        printArray(l);
+        System.out.println("\n");
+        printArray(b);
+        int i = c1.length;
+        int j = c2.length;
+        char[] r = new char[l[c1.length][c2.length]];
+        int k = r.length - 1;
+        //根据上面得到的l,b的二维数组，计算出对应的序列
+        while (i >= 0 && j >= 0 && k >= 0) {
+            if (b[i][j] == tlt) {
+                r[k] = c1[i - 1];
+                i--;
+                j--;
+                k--;
+            } else if (b[i][j] == tl) {
+                j--;
+            } else if (b[i][j] == tt) {
+                i--;
+            }
+        }
+        System.out.println(new String(r));
+        return new String(r);
     }
 
     /**
