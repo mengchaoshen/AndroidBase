@@ -1,5 +1,7 @@
 package com.smc.androidbase;
 
+import com.smc.androidbase.thread.ThreadTest;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,17 +35,20 @@ public class Test {
 //        });
 //        System.out.print(list);
 
-        System.out.println(testRegular("01"));
-        System.out.println(testRegular("03"));
-        System.out.println(testRegular("000"));
-        System.out.println(testRegular("123"));
-
-        int width = 1281;
-        int height = 720;
-        float ratio = (float)width / (float)height;
-        width = Float.floatToIntBits(Float.intBitsToFloat(height)*ratio);
-
-        System.out.println(width);
+//        System.out.println(testRegular("01"));
+//        System.out.println(testRegular("03"));
+//        System.out.println(testRegular("000"));
+//        System.out.println(testRegular("123"));
+//
+//        int width = 1281;
+//        int height = 720;
+//        float ratio = (float)width / (float)height;
+//        width = Float.floatToIntBits(Float.intBitsToFloat(height)*ratio);
+//
+//        System.out.println(width);
+        ThreadTest threadTest = new ThreadTest();
+        threadTest.put();
+        threadTest.start();
     }
 
     private static boolean testRegular(String str){
