@@ -111,10 +111,10 @@ public class ChartActivity extends Activity {
                     if (mPointValues2.size() > 10) {
                         mPointValues2.remove(0);
                     }
-//                    if (value1 < 6) {
-//                        Log.i("chart", "恭喜在第" + mIndex + "次中签");
-//                        mIndex = 1;
-//                    }
+                    if (value1 < 40) {
+                        Log.i("chart", "恭喜在第" + mIndex + "次中签");
+                        mIndex = 1;
+                    }
                     mLineChartData.setAxisXBottom(buildAxisX(mPointValues1.get(0).getX()));
                     mLinecharview.setLineChartData(mLineChartData);
                     Viewport currentPort = new Viewport(mPointValues1.get(0).getX() + 0.0f, 100f, mPointValues1.get(0).getX() + 10.0f, 0.0f);

@@ -53,6 +53,42 @@
                 android:text="Login"/>
 
             <TextView
+                android:id="@+id/tv_screen_recorder"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="录屏"/>
+
+            <TextView
+                android:id="@+id/tv_surface"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="Surface"/>
+
+            <TextView
+                android:id="@+id/tv_arcrtc_sdk"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="ArcRtcSDK"/>
+
+            <TextView
+                android:id="@+id/tv_vrdemoaar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#999999"
+                android:gravity="center"
+                android:text="vrdemoaar"/>
+
+            <TextView
                 android:id="@+id/tv_netease"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

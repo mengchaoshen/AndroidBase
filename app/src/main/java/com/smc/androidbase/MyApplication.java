@@ -15,6 +15,7 @@ import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 import com.netease.nimlib.sdk.util.NIMUtil;
 import com.smc.androidbase.arc.HttpUtils;
 import com.smc.androidbase.service.CheckExitService;
+import com.smc.androidbase.utils.ToastUtil;
 
 import retrofit2.http.HTTP;
 
@@ -33,6 +34,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         HttpUtils.getInstance().init();
+        ToastUtil.setApplicationContext(this);
         Log.d(TAG, "onCreate()");
 //        Intent intent = new Intent(this, CheckExitService.class);
 //        startService(intent);
@@ -46,6 +48,7 @@ public class MyApplication extends Application {
             // 1、UI相关初始化操作
             // 2、相关Service调用
         }
+
     }
 
     // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可

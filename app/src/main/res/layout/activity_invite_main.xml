@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.smc.androidbase.MainActivity">
+
+    <EditText
+        android:id="@+id/et_userId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入UserId"/>
+
+    <EditText
+        android:id="@+id/et_userName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入UserName"/>
+
+    <EditText
+        android:id="@+id/et_toUserId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入消息接收方UserId"/>
+
+    <EditText
+        android:id="@+id/et_sessionId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="请输入房间号"/>
+
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="开始连接IM"/>
+
+    <TextView
+        android:id="@+id/tv_send"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="发送消息"/>
+
+    <TextView
+        android:id="@+id/tv_invite"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="邀请"/>
+
+    <TextView
+        android:id="@+id/tv_create"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="创建房间"/>
+
+    <TextView
+        android:id="@+id/tv_join"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#999999"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="加入房间"/>
+
+</LinearLayout>

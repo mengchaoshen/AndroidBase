@@ -60,9 +60,12 @@ public class GLActivity extends Activity {
 //        setContentView(glSurfaceView);
     }
 
-    @OnClick({R.id.tv_one_gl, R.id.tv_triangle, R.id.tv_egl, R.id.tv_egl2})
+    @OnClick({R.id.tv_one_gl, R.id.tv_triangle, R.id.tv_egl, R.id.tv_egl2, R.id.tv_new_opengl})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_new_opengl:
+                com.smc.androidbase.opengles.TriangleActivity.launch(this);
+                break;
             case R.id.tv_one_gl:
                 OneOpenGLActivity.launch(this);
                 break;
