@@ -31,8 +31,40 @@ public class Test {
     private static List<Integer> mList1 = new ArrayList<>();
     private static List<Integer> mList3 = new ArrayList<>();
 
+    public static <T> T get() {
+        Integer i = 123;
+        return (T) i;
+    }
+
+    public static class Apple {
+    }
+
+    public static class EnglishBook extends Book{
+
+    }
+
+    public static class Book<E> {
+        //泛型构造器
+        public <T> Book(T t) {
+            System.out.println(t);
+        }
+
+        public Book() {
+        }
+
+    }
+
 
     public static void main(String[] args) {
+        EnglishBook englishBook = new EnglishBook();
+
+        List<? extends Book> list = new ArrayList<>();
+
+        Book b = new Book(1);
+        Book<Integer> b1 = new <String>Book("s");
+
+        int a = get();
+        System.out.println(a);
 
 //        List<Integer> list = new ArrayList<>();
 //        list.add(1);
@@ -63,7 +95,7 @@ public class Test {
 //        threadTest.put();
 //        threadTest.start();
 
-        test();
+//        test();
     }
 
     private static boolean testRegular(String str) {
@@ -114,7 +146,7 @@ public class Test {
                     }
                     if (value3 < 7 || value4 < 7) {
                         mList3.add(mIndex3);
-                        System.out.println("恭喜张楠|王萍在第" + mIndex3 + "次中签, 平均次数="+ average(mList3));
+                        System.out.println("恭喜张楠|王萍在第" + mIndex3 + "次中签, 平均次数=" + average(mList3));
                         mIndex3 = 1;
                         mIndex4 = 1;
                     }
