@@ -41,6 +41,7 @@ public class TriangleActivity extends Activity {
     private EGLContext mEGLContext;
     private EGLSurface mEGLSurface;
     private EGLConfig mEGLConfig;
+    int programObject;
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, TriangleActivity.class);
@@ -194,12 +195,14 @@ public class TriangleActivity extends Activity {
                         "}                                          \n";
         int vertexShader;
         int fragmentShader;
-        int programObject;
+//        int programObject;
         int[] linked = new int[1];
         //加载一个顶点着色器
-        vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vShaderStr);
+        String vertexShaderStr = ShaderUtil.readRawTxt(this, R.raw.vertex_shader);
+        vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderStr);
         //加载一个片段着色器
-        fragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fShaderStr);
+        String fragmentShaderStr = ShaderUtil.readRawTxt(this, R.raw.fragment_shader);
+        fragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderStr);
 
         //创建一个program
         programObject = GLES30.glCreateProgram();
@@ -210,7 +213,14 @@ public class TriangleActivity extends Activity {
         //关联program与顶点着色器和片段着色器
         GLES30.glAttachShader(programObject, vertexShader);
         GLES30.glAttachShader(programObject, fragmentShader);
+
+
         GLES30.glLinkProgram(programObject);
+
+        //添加需要捕捉到变换反馈区的顶点属性
+//        final String[] varyings = {"gl_Position", "v_color"};
+//        GLES30.glTransformFeedbackVaryings(programObject, varyings, GLES30.GL_INTERLEAVED_ATTRIBS);
+//        GLES30.glLinkProgram(programObject);
 
         //获取program连接状态
         GLES30.glGetProgramiv(programObject, GLES30.GL_LINK_STATUS, linked, 0);
@@ -318,9 +328,13 @@ public class TriangleActivity extends Activity {
 //        DrawUtil.drawCubeByTriangles();
 //        DrawUtil.drawElementsCubeTriangles();
 //        DrawUtil.drawElementTriangleStrip();
-        DrawUtil.drawPolygon();
+//        DrawUtil.drawPolygon();
+//        TestUtil.testMaxVertexAttribs();
 
+//        DrawUtil.testFeedback(programObject);
+//        DrawUtil.drawTexture();
 
+        DrawUtil.drawTextureImage(programObject, this);
         checkGlError("draw");
     }
 

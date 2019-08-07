@@ -1,7 +1,14 @@
 package com.smc.androidbase.opengles;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Path;
 import android.opengl.GLES30;
+import android.opengl.GLUtils;
 import android.util.Log;
+
+import com.smc.androidbase.R;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -532,8 +539,6 @@ public class DrawUtil {
                 0, 1, 2, 3, 3,
                 4, 4, 5, 6, 7,
         };
-
-
         GLES30.glVertexAttrib4fv(0, getFloatBuffer(colors));
         //把顶点数组的形式指定Vertext的参数值a_position
         GLES30.glVertexAttribPointer(1, 3, GLES30.GL_FLOAT, false, 0, getFloatBuffer(positions));
@@ -542,6 +547,152 @@ public class DrawUtil {
         GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, indices.length, GLES30.GL_UNSIGNED_INT, getIntBuffer(indices));
         GLES30.glDisable(GLES30.GL_PRIMITIVE_RESTART_FIXED_INDEX);
         GLES30.glDisableVertexAttribArray(1);
+    }
+
+    public static void testFeedback(int queryObject) {
+        float[] colors = {1.0f, 0.0f, 1.0f, 1.0f};
+        float[] positions = {
+                0.0f, 0.0f, 0.0f, //v0
+                0.0f, 0.5f, 0.0f, //v1
+                0.15f, 0.0f, 0.0f,//v2
+                0.35f, 0.5f, 0.0f, //v3
+
+                0.2f, 0.0f, 0.0f,//v8
+                0.4f, 0.4f, 0.0f, //v9
+                0.6f, 0.0f, 0.0f,//v10
+                0.7f, 0.6f, 0.0f//v11
+        };
+        //一次draw绘制出两个三角形条带，使用了退化三角形也就是无法绘制出来的三角形
+        int[] indices = {
+                0, 1, 2, 3, 3,
+                4, 4, 5, 6, 7,
+        };
+        GLES30.glVertexAttrib4fv(0, getFloatBuffer(colors));
+        //把顶点数组的形式指定Vertext的参数值a_position
+        GLES30.glVertexAttribPointer(1, 3, GLES30.GL_FLOAT, false, 0, getFloatBuffer(positions));
+        GLES30.glEnableVertexAttribArray(1);
+        GLES30.glEnable(GLES30.GL_PRIMITIVE_RESTART_FIXED_INDEX);
+
+        GLES30.glBeginTransformFeedback(GLES30.GL_POINTS);
+        GLES30.glBeginQuery(GLES30.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, queryObject);
+//        GLES30.glDrawArrays(GLES30.GL_POINTS, 0, 10);
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, indices.length, GLES30.GL_UNSIGNED_INT, getIntBuffer(indices));
+        GLES30.glEndQuery(GLES30.GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+        GLES30.glEndTransformFeedback();
+        int[] numPoints = new int[1];
+        GLES30.glGetQueryObjectuiv(queryObject, GLES30.GL_QUERY_RESULT, numPoints, 0);
+
+
+        GLES30.glDisable(GLES30.GL_PRIMITIVE_RESTART_FIXED_INDEX);
+        GLES30.glDisableVertexAttribArray(1);
+    }
+
+    /**
+     * 使用texture来加载
+     */
+    public static void drawTexture() {
+        int[] textureId = new int[1];
+        int[] ints = {
+                255, 0, 0,
+                0, 255, 0,
+                0, 0, 255,
+                255, 255, 0,
+
+                255, 0, 0,
+                0, 255, 0,
+                0, 0, 255,
+                255, 255, 0,
+
+                255, 0, 0,
+                0, 255, 0,
+                0, 0, 255,
+                255, 255, 0,
+
+                255, 0, 0,
+                0, 255, 0,
+                0, 0, 255,
+                255, 255, 0,
+        };
+        checkGlError("drawTexture1");
+        GLES30.glPixelStorei(GLES30.GL_UNPACK_ALIGNMENT, 1);//设置解包对齐
+        checkGlError("drawTexture2");
+        GLES30.glGenTextures(1, textureId, 0);
+        checkGlError("drawTexture3");
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
+        checkGlError("drawTexture4");
+        //glTexImage2D上传纹理数据
+        GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_RGB, 4, 4, 0,
+                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, getByteBufferInt(ints));
+
+        checkGlError("drawTexture");
+
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_NEAREST);
+
+
+        GLES30.glEnableVertexAttribArray(1);
+
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 16);
+
+//        GLUtils.texImage2D();
+    }
+
+    /**
+     * 使用texture把bitmap绘制出来
+     *
+     * @param program
+     * @param context
+     */
+    public static void drawTextureImage(int program, Context context) {
+        //顶点坐标
+        float vertexData[] = {   // in counterclockwise order:
+                -1f, -1f, 0.0f, // bottom left
+                1f, -1f, 0.0f, // bottom right
+                -1f, 1f, 0.0f, // top left
+                1f, 1f, 0.0f,  // top right
+        };
+
+        //纹理坐标  对应顶点坐标  与之映射
+        float textureData[] = {   // in counterclockwise order:
+                0f, 1f, 0.0f, // bottom left
+                1f, 1f, 0.0f, // bottom right
+                0f, 0f, 0.0f, // top left
+                1f, 0f, 0.0f,  // top right
+        };
+        //每一次取点的时候取几个点
+        final int COORDS_PER_VERTEX = 3;
+        final int vertexCount = vertexData.length / COORDS_PER_VERTEX;
+        final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+
+        int avPostion = GLES30.glGetAttribLocation(program, "a_position");
+        int afPostion = GLES30.glGetAttribLocation(program, "af_position");
+
+        int[] textures = new int[1];
+        GLES30.glGenTextures(1, textures, 0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textures[0]);
+
+        //设置纹理方法缩小时所使用的策略
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_S, GLES30.GL_REPEAT);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_WRAP_T, GLES30.GL_REPEAT);
+
+        //生成bitmap并且把它加载到纹理中去
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_camera_begin);
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0);
+
+        //把顶点坐标和纹理坐标的数据传入
+        GLES30.glUseProgram(program);
+        GLES30.glEnableVertexAttribArray(avPostion);
+        GLES30.glEnableVertexAttribArray(afPostion);
+        GLES30.glVertexAttribPointer(avPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(vertexData));
+        GLES30.glVertexAttribPointer(afPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(textureData));
+        //绘制三角形条带
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, vertexCount);
+        //禁止顶点参数数组设置
+        GLES30.glDisableVertexAttribArray(avPostion);
+        GLES30.glDisableVertexAttribArray(afPostion);
+        checkGlError("drawTextureImage");
     }
 
     public static void drawPolygon() {
@@ -766,6 +917,16 @@ public class DrawUtil {
         byteBuffer.order(ByteOrder.nativeOrder());
         for (int i = 0; i < shorts.length; i++) {
             byteBuffer.putShort(i, shorts[i]);
+        }
+        byteBuffer.position(0);
+        return byteBuffer;
+    }
+
+    public static ByteBuffer getByteBufferInt(int[] ints) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(ints.length * Integer.BYTES);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        for (int i = 0; i < ints.length; i++) {
+            byteBuffer.putInt(i, ints[i]);
         }
         byteBuffer.position(0);
         return byteBuffer;
