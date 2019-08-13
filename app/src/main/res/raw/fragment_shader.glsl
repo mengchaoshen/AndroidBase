@@ -1,10 +1,19 @@
 #version 300 es
 
-precision mediump float;
-in vec2 v_texPo;
-out vec4 fragColor;
-uniform sampler2D sTexture;
+precision mediump float;//定义一个精度
+in vec2 v_texCoord;
+layout(location=0) out vec4 outColor;
+uniform sampler2D s_baseMap;
+uniform sampler2D s_lightMap;
+
+in float v_clipDist;
 void main() {
-    //根据传入的纹理坐标和sTexture生成color
-    fragColor = texture(sTexture, v_texPo);
+    vec4 baseColor = texture(s_baseMap, v_texCoord);
+    vec4 lightColor = texture(s_lightMap, v_texCoord);
+//    outColor = baseColor * (lightColor + 0.25);
+    if (v_clipDist < 0.0){
+        discard;
+    } else {
+        outColor = baseColor * (lightColor + 0.25);
+    }
 }

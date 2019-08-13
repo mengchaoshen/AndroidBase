@@ -39,7 +39,7 @@ public class Test {
     public static class Apple {
     }
 
-    public static class EnglishBook extends Book{
+    public static class EnglishBook extends Book {
 
     }
 
@@ -56,15 +56,39 @@ public class Test {
 
 
     public static void main(String[] args) {
-        EnglishBook englishBook = new EnglishBook();
+//        int j1 = 10;
+//        int j2 = 10;
+//        //i = j++表示，i=j; j++
+//        int i = j1++;
+//        //k = ++j表示 j++; k=j
+//        int k = ++j2;
+//
+//        System.out.println("i = " + i);
+//        System.out.println("k = " + k);
 
-        List<? extends Book> list = new ArrayList<>();
+//        int c = 9;
+//        int n = c - 1;
+//        n |= n >>> 1;
+//        n |= n >>> 2;
+//        n |= n >>> 4;
+//        n |= n >>> 8;
+//        n |= n >>> 16;
+//
+//        System.out.println("n = " + n);
 
-        Book b = new Book(1);
-        Book<Integer> b1 = new <String>Book("s");
+        String str1 = "hello";
+        String str2 = "he" + new String("llo");
+        System.err.println(str1 == str2);
 
-        int a = get();
-        System.out.println(a);
+//        EnglishBook englishBook = new EnglishBook();
+//
+//        List<? extends Book> list = new ArrayList<>();
+//
+//        Book b = new Book(1);
+//        Book<Integer> b1 = new <String>Book("s");
+//
+//        int a = get();
+//        System.out.println(a);
 
 //        List<Integer> list = new ArrayList<>();
 //        list.add(1);

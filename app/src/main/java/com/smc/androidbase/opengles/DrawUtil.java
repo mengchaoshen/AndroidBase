@@ -3,9 +3,9 @@ package com.smc.androidbase.opengles;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
 import android.opengl.GLES30;
 import android.opengl.GLUtils;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.smc.androidbase.R;
@@ -69,7 +69,6 @@ public class DrawUtil {
             0.0f, 0.0f, 1.0f, 1.0f,
             0.0f, 0.0f, 1.0f, 1.0f,
     };
-
 
     /**
      * 使用获取映射缓冲区的方式，来填充数据
@@ -590,29 +589,15 @@ public class DrawUtil {
     /**
      * 使用texture来加载
      */
-    public static void drawTexture() {
+    public static void drawTexture(int program) {
         int[] textureId = new int[1];
-        int[] ints = {
-                255, 0, 0,
-                0, 255, 0,
-                0, 0, 255,
-                255, 255, 0,
-
-                255, 0, 0,
-                0, 255, 0,
-                0, 0, 255,
-                255, 255, 0,
-
-                255, 0, 0,
-                0, 255, 0,
-                0, 0, 255,
-                255, 255, 0,
-
-                255, 0, 0,
-                0, 255, 0,
-                0, 0, 255,
-                255, 255, 0,
+        byte[] pixels = {
+                (byte) 0xff, 0, 0, // Red
+                0, (byte) 0xff, 0, // Green
+                0, 0, (byte) 0xff, // Blue
+                (byte) 0xff, (byte) 0xff, 0 // Yellow
         };
+
         checkGlError("drawTexture1");
         GLES30.glPixelStorei(GLES30.GL_UNPACK_ALIGNMENT, 1);//设置解包对齐
         checkGlError("drawTexture2");
@@ -621,8 +606,8 @@ public class DrawUtil {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
         checkGlError("drawTexture4");
         //glTexImage2D上传纹理数据
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_RGB, 4, 4, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, getByteBufferInt(ints));
+        GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_RGB, 2, 2, 0,
+                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, getByteBuffer(pixels));
 
         checkGlError("drawTexture");
 
@@ -630,11 +615,112 @@ public class DrawUtil {
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_NEAREST);
 
 
+        //顶点坐标
+        float vertexData[] = {   // in counterclockwise order:
+                0f, 0f, 0.0f, // 原点
+                -1f, -1f, 0.0f, // bottom left
+                1f, -1f, 0.0f, // bottom right
+                -1f, 1f, 0.0f, // top left
+                1f, 1f, 0.0f,  // top right
+        };
+
+        //纹理坐标  对应顶点坐标  与之映射
+        float textureData[] = {   // in counterclockwise order:
+                0.5f, 0.5f, 0f,// 原点
+                0f, 1f, 0.0f, // bottom left
+                1f, 1f, 0.0f, // bottom right
+                0f, 0f, 0.0f, // top left
+                1f, 0f, 0.0f,  // top right
+        };
+        short indics[] = {
+                0, 1, 2,
+                0, 1, 3,
+                0, 3, 4,
+                0, 4, 2,
+        };
+        ShortBuffer indicesBuffer = ByteBuffer.allocateDirect(indics.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asShortBuffer()
+                .put(indics);
+        indicesBuffer.position(0);
+
+        //每一次取点的时候取几个点
+        final int COORDS_PER_VERTEX = 3;
+        final int vertexCount = vertexData.length / COORDS_PER_VERTEX;
+        final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+
+        int avPostion = GLES30.glGetAttribLocation(program, "a_position");
+        int afPostion = GLES30.glGetAttribLocation(program, "af_position");
+        int sTexture = GLES30.glGetUniformLocation(program, "sTexture");
+
+        GLES30.glUseProgram(program);
+        GLES30.glEnableVertexAttribArray(avPostion);
+        GLES30.glEnableVertexAttribArray(afPostion);
+        GLES30.glVertexAttribPointer(avPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(vertexData));
+        GLES30.glVertexAttribPointer(afPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(textureData));
+
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
+        GLES30.glUniform1i(sTexture, 0);
+
+        //绘制三角形条带
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, indics.length, GLES30.GL_UNSIGNED_SHORT, indicesBuffer);
+        //禁止顶点参数数组设置
+        GLES30.glDisableVertexAttribArray(avPostion);
+        GLES30.glDisableVertexAttribArray(afPostion);
+        checkGlError("drawTextureImage");
+    }
+
+    /**
+     * 多重纹理
+     *
+     * @param context
+     * @param program
+     */
+    public static void drawMultiShader(Context context, int program) {
+        float vVertices[] = {
+                -0.5f, 0.5f, 0.0f,  // Position 0
+                -0.5f, -0.5f, 0.0f,  // Position 1
+                0.5f, -0.5f, 0.0f,  // Position 2
+                0.5f, 0.5f, 0.0f,  // Position 3
+        };
+        float vTextures[] = {
+                0.0f, 0.0f,        // TexCoord 0
+                0.0f, 1.0f,        // TexCoord 1
+                1.0f, 1.0f,        // TexCoord 2
+                1.0f, 0.0f         // TexCoord 3
+        };
+        short indices[] = {0, 1, 2, 0, 2, 3};
+
+        Bitmap bitmapBase = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_camera_begin);
+        Bitmap bitmapLight = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_loading_shadow2);
+
+        int baseMapLoc = GLES30.glGetUniformLocation(program, "s_baseMap");
+        int lightMapLoc = GLES30.glGetUniformLocation(program, "s_lightMap");
+        int baseMapTexId = TextureUtil.loadTexture(bitmapBase);
+        int lightMapTexId = TextureUtil.loadTexture(bitmapLight);
+
+        // Load the vertex position
+        GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT, false, 3 * Float.BYTES, getFloatBuffer(vVertices));
+        // Load the texture coordinate
+        GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT, false, 2 * Float.BYTES, getFloatBuffer(vTextures));
+        GLES30.glEnableVertexAttribArray(0);
         GLES30.glEnableVertexAttribArray(1);
 
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 16);
+        //Bind the base map
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, baseMapTexId);
+        GLES30.glUniform1i(baseMapLoc, 0);
 
-//        GLUtils.texImage2D();
+        //Bind the light map
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE1);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, lightMapTexId);
+        GLES30.glUniform1i(lightMapLoc, 1);
+
+        GLES30.glDrawElements(GLES30.GL_TRIANGLES, 6, GLES30.GL_UNSIGNED_SHORT, getShortBuffer(indices));
+
+        GLES30.glDisableVertexAttribArray(0);
+        GLES30.glDisableVertexAttribArray(1);
     }
 
     /**
@@ -646,6 +732,7 @@ public class DrawUtil {
     public static void drawTextureImage(int program, Context context) {
         //顶点坐标
         float vertexData[] = {   // in counterclockwise order:
+                0f, 0f, 0.0f, // 原点
                 -1f, -1f, 0.0f, // bottom left
                 1f, -1f, 0.0f, // bottom right
                 -1f, 1f, 0.0f, // top left
@@ -654,11 +741,24 @@ public class DrawUtil {
 
         //纹理坐标  对应顶点坐标  与之映射
         float textureData[] = {   // in counterclockwise order:
+                0.5f, 0.5f, 0f,// 原点
                 0f, 1f, 0.0f, // bottom left
                 1f, 1f, 0.0f, // bottom right
                 0f, 0f, 0.0f, // top left
                 1f, 0f, 0.0f,  // top right
         };
+        short indics[] = {
+                0, 1, 2,
+                0, 1, 3,
+                0, 3, 4,
+                0, 4, 2,
+        };
+        ShortBuffer indicesBuffer = ByteBuffer.allocateDirect(indics.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asShortBuffer()
+                .put(indics);
+        indicesBuffer.position(0);
+
         //每一次取点的时候取几个点
         final int COORDS_PER_VERTEX = 3;
         final int vertexCount = vertexData.length / COORDS_PER_VERTEX;
@@ -666,10 +766,8 @@ public class DrawUtil {
 
         int avPostion = GLES30.glGetAttribLocation(program, "a_position");
         int afPostion = GLES30.glGetAttribLocation(program, "af_position");
+        int sTexture = GLES30.glGetUniformLocation(program, "sTexture");
 
-        int[] textures = new int[1];
-        GLES30.glGenTextures(1, textures, 0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textures[0]);
 
         //设置纹理方法缩小时所使用的策略
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
@@ -680,6 +778,7 @@ public class DrawUtil {
         //生成bitmap并且把它加载到纹理中去
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_camera_begin);
         GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, bitmap, 0);
+        bitmap.recycle();
 
         //把顶点坐标和纹理坐标的数据传入
         GLES30.glUseProgram(program);
@@ -688,7 +787,8 @@ public class DrawUtil {
         GLES30.glVertexAttribPointer(avPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(vertexData));
         GLES30.glVertexAttribPointer(afPostion, COORDS_PER_VERTEX, GLES30.GL_FLOAT, false, vertexStride, getFloatBuffer(textureData));
         //绘制三角形条带
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, vertexCount);
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, indics.length, GLES30.GL_UNSIGNED_SHORT, indicesBuffer);
+//        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 4);
         //禁止顶点参数数组设置
         GLES30.glDisableVertexAttribArray(avPostion);
         GLES30.glDisableVertexAttribArray(afPostion);
@@ -809,22 +909,6 @@ public class DrawUtil {
 
     public static void drawColorPositionSeparate() {
         //使用常量的方式指定Vertext的参数值
-        float[] colors = {1.0f, 0.0f, 1.0f, 1.0f};
-        GLES30.glVertexAttrib4fv(0, getFloatBuffer(colors));
-//        使用顶点数组的形式指定Vertext的参数值a_color
-//        float[] colors = {
-//                0.0f, 1.0f, 0.0f, 1.0f,
-//                0.0f, 0.0f, 1.0f, 1.0f,
-//                1.0f, 0.0f, 0.0f, 1.0f
-//        };
-//        GLES30.glVertexAttribPointer(0,
-//                4,
-//                GLES30.GL_FLOAT,
-//                false,
-//                0,
-//                getFloatBuffer(colors));
-
-
         float[] positions = {
                 0.0f, -1f, 0.0f,
                 0f, 0f, 0.0f,
@@ -832,16 +916,21 @@ public class DrawUtil {
         };
 
         //把顶点数组的形式指定Vertext的参数值a_position
-        GLES30.glVertexAttribPointer(1, //被指定属性的index值
+        GLES30.glVertexAttribPointer(0, //被指定属性的index值
                 3,//顶点属性指定的分量数量
                 GLES30.GL_FLOAT,//数据格式
                 false,//非浮点数在转为浮点数时，是否规范化
                 0,//获取索引的跨距
                 getFloatBuffer(positions));//顶点数据
-        GLES30.glEnableVertexAttribArray(1);
+        GLES30.glEnableVertexAttribArray(0);
+
+        //设置layout=0 color的参数
+        float[] colors = {1.0f, 0.0f, 1.0f, 1.0f};
+        GLES30.glVertexAttrib4fv(1, getFloatBuffer(colors));
+
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
-        GLES30.glDisableVertexAttribArray(1);
+        GLES30.glDisableVertexAttribArray(0);
     }
 
     public static void drawColorPositionTogether() {
@@ -875,6 +964,14 @@ public class DrawUtil {
         GLES30.glDisableVertexAttribArray(1);
     }
 
+    public static ByteBuffer getByteBuffer(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(bytes.length * Byte.BYTES);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        byteBuffer.put(bytes);
+        byteBuffer.position(0);
+        return byteBuffer;
+    }
+
     public static ShortBuffer getShortBuffer(short[] shorts) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(shorts.length * Short.BYTES);
         byteBuffer.order(ByteOrder.nativeOrder());
@@ -882,6 +979,15 @@ public class DrawUtil {
         shortBuffer.put(shorts);
         shortBuffer.position(0);
         return shortBuffer;
+    }
+
+    public static IntBuffer getUnsignIntBuffer(int[] ints) {
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(ints.length * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        IntBuffer intBuffer = byteBuffer.asIntBuffer();
+        intBuffer.put(ints);
+        intBuffer.position(0);
+        return intBuffer;
     }
 
     public static IntBuffer getIntBuffer(int[] ints) {
