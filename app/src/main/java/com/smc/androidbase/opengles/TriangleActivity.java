@@ -57,6 +57,8 @@ public class TriangleActivity extends Activity {
                 UserData userData = new UserData();
                 userData.setVobIds(new int[3]);
                 userData.setVaoIds(new int[3]);
+                userData.setFbo(new int[1]);
+                userData.setColorTexId(new int[4]);
                 esContext.setUserData(userData);
                 esContext.setWidth(mSurfaceview.getWidth());
                 esContext.setHeight(mSurfaceview.getHeight());
@@ -108,7 +110,8 @@ public class TriangleActivity extends Activity {
         GLES30.glUseProgram(userData.getProgramObject());
 
 //        DrawUtil.drawColorPositionSeparate();
-        StencilHelper.draw(esContext.program);
+//        StencilHelper.draw(esContext.program);
+        MrtsHelper.draw(esContext);
 
         checkGlError("draw");
     }

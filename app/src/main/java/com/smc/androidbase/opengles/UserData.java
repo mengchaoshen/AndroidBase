@@ -10,6 +10,8 @@ public class UserData {
     private int programObject;
     private int[] vobIds;
     private int[] vaoIds;
+    private int[] fbo;
+    private int[] colorTexId;
 
     public int getProgramObject() {
         return programObject;
@@ -33,5 +35,21 @@ public class UserData {
 
     public void setVaoIds(int[] vaoIds) {
         this.vaoIds = vaoIds;
+    }
+
+    public int[] getFbo() {
+        return fbo;
+    }
+
+    public void setFbo(int[] fbo) {
+        this.fbo = fbo;
+    }
+
+    public int[] getColorTexId() {
+        return colorTexId;
+    }
+
+    public void setColorTexId(int[] colorTexId) {
+        this.colorTexId = colorTexId;
     }
 }
