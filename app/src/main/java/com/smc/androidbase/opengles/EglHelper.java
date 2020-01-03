@@ -2,6 +2,7 @@ package com.smc.androidbase.opengles;
 
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;
+import android.util.Log;
 import android.view.Surface;
 
 /**
@@ -10,6 +11,8 @@ import android.view.Surface;
  */
 
 public class EglHelper {
+
+    private final static String TAG = EglHelper.class.getSimpleName();
 
     /**
      * 初始化EGL
@@ -57,6 +60,8 @@ public class EglHelper {
         //创建一个EGLSurface
         esContext.eglSurface = EGL14.eglCreateWindowSurface(esContext.eglDisplay, config[0], surface, surfaceAttribs, 0);
         if (esContext.eglSurface == EGL14.EGL_NO_SURFACE) {
+            int errorCode = EGL14.eglGetError();
+            Log.e(TAG, "eglGetError code=" + errorCode);
             return false;
         }
         //创建一个EGLContext

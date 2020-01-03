@@ -189,7 +189,7 @@ public class LoginActivity extends Activity {
         FormBody formBody = new FormBody
                 .Builder()
                 .add(userNameKey, "smc")
-                .add("password", "Xxzj88088175@arc")
+                .add("password", "S88088175mc")
                 .build();
         final Request request = new Request.Builder()
                 .url("http://172.28.10.66/confirm.asp")

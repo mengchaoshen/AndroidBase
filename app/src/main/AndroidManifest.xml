@@ -188,6 +188,18 @@
             android:screenOrientation="fullSensor"
             />
 
+        <activity
+            android:name=".TextureActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            />
+
+        <activity
+            android:name=".SurfaceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            />
+
         <activity android:name=".ScreenRecorderActivity"/>
 
         <activity
@@ -195,6 +207,8 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".opengles.TriangleActivity"/>
+
+        <activity android:name=".Camera2TestActivity"/>
 
         <service android:name=".service.BackService"/>
 

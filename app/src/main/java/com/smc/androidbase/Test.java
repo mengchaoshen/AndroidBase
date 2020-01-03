@@ -54,73 +54,79 @@ public class Test {
 
     }
 
-
-    public static void main(String[] args) {
-//        int j1 = 10;
-//        int j2 = 10;
-//        //i = j++表示，i=j; j++
-//        int i = j1++;
-//        //k = ++j表示 j++; k=j
-//        int k = ++j2;
-//
-//        System.out.println("i = " + i);
-//        System.out.println("k = " + k);
-
-//        int c = 9;
-//        int n = c - 1;
-//        n |= n >>> 1;
-//        n |= n >>> 2;
-//        n |= n >>> 4;
-//        n |= n >>> 8;
-//        n |= n >>> 16;
-//
-//        System.out.println("n = " + n);
-
-        String str1 = "hello";
-        String str2 = "he" + new String("llo");
-        System.err.println(str1 == str2);
-
-//        EnglishBook englishBook = new EnglishBook();
-//
-//        List<? extends Book> list = new ArrayList<>();
-//
-//        Book b = new Book(1);
-//        Book<Integer> b1 = new <String>Book("s");
-//
-//        int a = get();
-//        System.out.println(a);
-
-//        List<Integer> list = new ArrayList<>();
-//        list.add(1);
-//        list.add(3);
-//        list.add(2);
-//
-//        Collections.sort(list, new Comparator<Integer>() {
-//            @Override
-//            public int compare(Integer o1, Integer o2) {
-//                //return > 0 o1和o2替换位置
-//                return o1 - o2;
-//            }
-//        });
-//        System.out.print(list);
-
-//        System.out.println(testRegular("01"));
-//        System.out.println(testRegular("03"));
-//        System.out.println(testRegular("000"));
-//        System.out.println(testRegular("123"));
-//
-//        int width = 1281;
-//        int height = 720;
-//        float ratio = (float)width / (float)height;
-//        width = Float.floatToIntBits(Float.intBitsToFloat(height)*ratio);
-//
-//        System.out.println(width);
-//        ThreadTest threadTest = new ThreadTest();
-//        threadTest.put();
-//        threadTest.start();
-
-//        test();
+    public static void main(String[] args){
+        String s = System.currentTimeMillis()+"";
+        Long l = Long.valueOf(s);
+        System.out.print(" l:" + l);
     }
+
+
+//    public static void main(String[] args) {
+////        int j1 = 10;
+////        int j2 = 10;
+////        //i = j++表示，i=j; j++
+////        int i = j1++;
+////        //k = ++j表示 j++; k=j
+////        int k = ++j2;
+////
+////        System.out.println("i = " + i);
+////        System.out.println("k = " + k);
+//
+////        int c = 9;
+////        int n = c - 1;
+////        n |= n >>> 1;
+////        n |= n >>> 2;
+////        n |= n >>> 4;
+////        n |= n >>> 8;
+////        n |= n >>> 16;
+////
+////        System.out.println("n = " + n);
+//
+//        String str1 = "hello";
+//        String str2 = "he" + new String("llo");
+//        System.err.println(str1 == str2);
+//
+////        EnglishBook englishBook = new EnglishBook();
+////
+////        List<? extends Book> list = new ArrayList<>();
+////
+////        Book b = new Book(1);
+////        Book<Integer> b1 = new <String>Book("s");
+////
+////        int a = get();
+////        System.out.println(a);
+//
+////        List<Integer> list = new ArrayList<>();
+////        list.add(1);
+////        list.add(3);
+////        list.add(2);
+////
+////        Collections.sort(list, new Comparator<Integer>() {
+////            @Override
+////            public int compare(Integer o1, Integer o2) {
+////                //return > 0 o1和o2替换位置
+////                return o1 - o2;
+////            }
+////        });
+////        System.out.print(list);
+//
+////        System.out.println(testRegular("01"));
+////        System.out.println(testRegular("03"));
+////        System.out.println(testRegular("000"));
+////        System.out.println(testRegular("123"));
+////
+////        int width = 1281;
+////        int height = 720;
+////        float ratio = (float)width / (float)height;
+////        width = Float.floatToIntBits(Float.intBitsToFloat(height)*ratio);
+////
+////        System.out.println(width);
+////        ThreadTest threadTest = new ThreadTest();
+////        threadTest.put();
+////        threadTest.start();
+//
+////        test();
+//    }
 
     private static boolean testRegular(String str) {
         return str.matches("((0[0-9])|(000))");

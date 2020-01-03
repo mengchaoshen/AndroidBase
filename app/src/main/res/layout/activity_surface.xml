@@ -1,22 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout android:id="@+id/rl_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.smc.androidbase.MainActivity">
+    android:layout_height="match_parent">
 
-    <SurfaceView
-        android:id="@+id/surfaceview"
-        android:visibility="gone"
+    <RelativeLayout
+        android:id="@+id/rl_surface_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <TextView
+        <SurfaceView
+            android:id="@+id/sv_1"
+            android:layout_width="300dp"
+            android:layout_height="300dp" />
+
+        <SurfaceView
+            android:id="@+id/sv_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <SurfaceView
+            android:id="@+id/sv_3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="100dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="123"/>
+        android:layout_marginTop="350dp"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/black" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_image_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="300dp">
+
+        <ImageView
+            android:id="@+id/iv_1"
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:background="#ff0000" />
+
+        <ImageView
+            android:id="@+id/iv_2"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:background="#00ff00" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

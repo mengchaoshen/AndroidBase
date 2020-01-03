@@ -3,13 +3,10 @@ package com.smc.androidbase.arc;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.hardware.Sensor;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.OrientationEventListener;
@@ -19,8 +16,6 @@ import com.smc.androidbase.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +40,7 @@ public class SurfaceActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_surface);
+        setContentView(R.layout.activity_texture);
         ButterKnife.bind(this);
 
         MyOrientationEventListener listener = new MyOrientationEventListener(this);

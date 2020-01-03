@@ -11,18 +11,41 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Ticket implements Runnable {
 
-    private static int num = 100;
+    private volatile int num = 100;
     //构造函数中的fair参数表示是否是公平锁
     //fair=true 各个线程就会依次获取到锁
     //ReentrantLock是一个可中断的锁
     private ReentrantLock lock = new ReentrantLock(true);
+    private ReentrantLock lockA = new ReentrantLock(true);
     ReadWriteLock mReadWriteLock = new ReentrantReadWriteLock();
+
+    public void a(){
+        lock.lock();
+        //..
+        lockA.lock();
+        // ..
+        lockA.unlock();
+
+        lock.unlock();
+    }
+
+    public void b(){
+        //..
+        lock.lock();
+
+        lockA.lock();
+
+        lockA.unlock();
+        // ..
+        lock.unlock();
+    }
 
 
     @Override
     public void run() {
 
         while (true) {
+
             if (num > 0) {
                 try {
                     Thread.sleep(10);
@@ -50,7 +73,7 @@ public class Ticket implements Runnable {
     /**
      * 这里是static方法，所以不同对象之间也只有一个类锁
      */
-    private void pr() {
+    private synchronized void pr() {
         //这里加的是类锁，不同对象之间也只有一个类锁，如果加的是对象锁，还是会有同步问题的
 //        lock.lock();
         if (num > 0) {

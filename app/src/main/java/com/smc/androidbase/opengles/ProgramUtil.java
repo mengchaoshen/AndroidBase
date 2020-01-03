@@ -117,10 +117,10 @@ public class ProgramUtil {
 //        int programObject;
         int[] linked = new int[1];
         //加载一个顶点着色器
-        String vertexShaderStr = ShaderUtil.readRawTxt(context, R.raw.vertex_shader_mrts);
+        String vertexShaderStr = ShaderUtil.readRawTxt(context, R.raw.vertex_shader_bitmap);
         vertexShader = ShaderUtil.loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderStr);
         //加载一个片段着色器
-        String fragmentShaderStr = ShaderUtil.readRawTxt(context, R.raw.fragment_shader_mrts);
+        String fragmentShaderStr = ShaderUtil.readRawTxt(context, R.raw.fragment_shader_bitmap);
         fragmentShader = ShaderUtil.loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderStr);
 
         //创建一个program

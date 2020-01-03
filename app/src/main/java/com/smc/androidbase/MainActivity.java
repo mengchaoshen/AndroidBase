@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.opengl.GLES20;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,11 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arcvideo.arcrtcsdk.ArcRtcSDK;
 import com.smc.androidbase.animator.AnimatorActivity;
 import com.smc.androidbase.arc.InviteMainActivity;
 import com.smc.androidbase.arc.LoginActivity;
-import com.smc.androidbase.arc.SurfaceActivity;
 import com.smc.androidbase.bitmap.BitmapActivity;
 import com.smc.androidbase.broadcast.MyDynamicBroadcastReceiver;
 import com.smc.androidbase.event_dispatch.EventActivity;
@@ -145,14 +140,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.tv_location, R.id.tv_view, R.id.tv_message, R.id.tv_aidl, R.id.tv_socket,
             R.id.tv_bitmap, R.id.tv_animator, R.id.tv_login, R.id.tv_im, R.id.tv_empty, R.id.tv_gl,
             R.id.tv_media, R.id.tv_launch_other, R.id.tv_dialog, R.id.tv_list, R.id.tv_chart,
-            R.id.tv_netease, R.id.tv_vrdemoaar, R.id.tv_surface, R.id.tv_arcrtc_sdk})
+            R.id.tv_netease, R.id.tv_vrdemoaar, R.id.tv_surface, R.id.tv_texture, R.id.tv_arcrtc_sdk,
+            R.id.tv_camera2})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_camera2:
+                Camera2TestActivity.launch(this);
+                break;
             case R.id.tv_arcrtc_sdk:
                 InviteMainActivity.launch(this);
                 break;
             case R.id.tv_surface:
                 SurfaceActivity.launch(this);
+                break;
+            case R.id.tv_texture:
+                TextureActivity.launch(this);
                 break;
             case R.id.tv_vrdemoaar:
 //                Intent vrDemoIntent = new Intent(this, PlayerActivity.class);
